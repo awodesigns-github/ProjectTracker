@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,25 +16,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::factory()->create([
+        $studentOne = User::factory()->create([
             'name' => 'Joseph Mushi',
             'email' => 'test@example.com',
         ]);
 
-        User::factory()->create([
+        $studentTwo = User::factory()->create([
             'name' => 'Jack Smith',
             'email' => 'test2@example.com'
         ]);
 
-        User::factory()->create([
+        $instructorOne = User::factory()->create([
             'name' => 'Jane Doe',
             'email' => 'test3@example.com'
         ]);
 
-        User::factory()->create([
+        $instructorTwo = User::factory()->create([
             'name' => 'John Doe',
             'email' => 'test4@example.com'
         ]);
+
 
         $this->call(ProjectSeeder::class);
         $this->call(TaskSeeder::class);
@@ -49,5 +51,14 @@ class DatabaseSeeder extends Seeder
         $this->call(ModuleStudentSeeder::class);
         $this->call(ModuleTeamSeeder::class);
         $this->call(ProjectTeamSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(PermissionSeeder::class);
+
+        $studentOne = User::find(1);
+        $studentOne->assignRole('team member');
+
+        // $instructorOne->assignRole('instructor');
+        // $instructorTwo->assignRole('instructor');
+        // $studentTwo->assignRole('team member');
     }
 }

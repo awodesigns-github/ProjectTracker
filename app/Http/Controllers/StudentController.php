@@ -32,6 +32,8 @@ class StudentController extends Controller
             $teamTaskCount += $projects->task->count();
        }
 
+       // find user with his role...
+       
 
         return view('spcs.index', [
             'teamId' => $teamId,
