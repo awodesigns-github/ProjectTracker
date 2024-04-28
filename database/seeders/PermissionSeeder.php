@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class PermissionSeeder extends Seeder
 {
@@ -15,73 +14,37 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         // create permissions
-        Permission::firstOrCreate([
+        Permission::create([
             'name' => 'create project'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name' => 'create task'
         ]);
 
-        Permission::firstOrCreate([
-            'name' => 'read project'
-        ]);
-        
-        Permission::firstOrCreate([
-            'name' =>'read task'
+        Permission::create([
+            'name' => 'view project'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
+            'name' => 'view task'
+        ]);
+
+        Permission::create([
             'name' => 'edit project'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name' => 'edit task'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name' => 'delete project'
         ]);
 
-        Permission::firstOrCreate([
+        Permission::create([
             'name' => 'delete task'
         ]);
-
-        Permission::firstOrCreate([
-            'name' => 'track progress'
-        ]);
-
-        /**
-         * assign permissions to roles
-         */
-
-         // assign persmissions to instructors
-         $instructor = Role::where('name', 'instructor')->first();
-         $instructor->givePermissionTo([
-            'create project',
-            'read project',
-            'edit project',
-            'delete project',
-            'create task',
-            'read task',
-            'edit task',
-            'delete task',
-            'track progress'
-         ]);
-
-         // assign permissions to team leader
-         $teamLeader = Role::where('name', 'team leader')->first();
-         $teamLeader->givePermissionTo([
-            'read project',
-            'read task',
-            'track progress'
-        ]);
-
-        // assign permissions to team member
-        $teamMember = Role::where('name', 'team member')->first();
-        $teamMember->givePermissionTo([
-           'read project',
-           'read task',
-        ]);
+        
     }
 }

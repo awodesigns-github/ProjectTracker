@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
+
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -53,12 +52,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProjectTeamSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
-
-        $studentOne = User::find(1);
-        $studentOne->assignRole('team member');
-
-        // $instructorOne->assignRole('instructor');
-        // $instructorTwo->assignRole('instructor');
-        // $studentTwo->assignRole('team member');
+        $this->call(RolePermissionSeeder::class);
+        $this->call(UserRoleSeeder::class);
     }
 }
