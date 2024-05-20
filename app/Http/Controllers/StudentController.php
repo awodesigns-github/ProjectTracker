@@ -2,45 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instructor;
-use App\Models\Project;
 use App\Models\Student;
-use App\Models\Task;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
+    private $userRole = 'student';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       // find the team members and their counts
-       $teamId = Student::find(Auth::user()->id)->with('team')->first()->team->id;
-       $teamMembersCount = Team::query()->where('id', $teamId)->first()->student->count();
+                // find the team members and their counts
+        $teamId = Student::query()->where('user_id', Auth::user()->id)->with('team')->first()->team->id;
+        $teamMembersCount = Team::query()->where('id', $teamId)->first()->student->count();
 
-       // find the projects associated with this team and their counts
-       $teamProjectsCount = Team::query()->where('id', $teamId)->with('project')->first()->project->count();
+        // find the projects associated with this team and their counts
+        $teamProjectsCount = Team::query()->where('id', $teamId)->with('project')->first()->project->count();
 
-       // find the number of Tasks for each project
-       $teamProjects = Team::query()->where('id', $teamId)->with('project')->first()->project;
+        // find the number of Tasks for each project
+        $teamProjects = Team::query()->where('id', $teamId)->with('project')->first()->project;
 
-       $teamTaskCount = 0;
-       foreach ($teamProjects as $projects) {
-            $teamTaskCount += $projects->task->count();
-       }
-
-       // find user with his role...
-       
+        $teamTaskCount = 0;
+        foreach ($teamProjects as $projects) {
+                $teamTaskCount += $projects->task->count();
+        }
 
         return view('spcs.index', [
             'teamId' => $teamId,
-            'teamProjects' => $teamProjects,
+            'projects' => $teamProjects,
             'projectCount' => $teamProjectsCount,
             'taskCount' => $teamTaskCount,
-            'teamMembersCount' => $teamMembersCount
+            'teamMembersCount' => $teamMembersCount,
+            'userRole' => $this->userRole
         ]);
     }
 

@@ -13,11 +13,14 @@ class UserRoleSeeder extends Seeder
      */
     public function run(): void
     {
+        // Admin user
         UserRole::create([
             'user_id' => 1,
             'role_id' => 1
         ]);
 
+
+        // Instructors
         UserRole::create([
             'user_id' => 2,
             'role_id' => 2
@@ -25,12 +28,19 @@ class UserRoleSeeder extends Seeder
 
         UserRole::create([
             'user_id' => 3,
-            'role_id' => 4
+            'role_id' => 2
+        ]);
+
+
+        // Students
+        UserRole::create([
+            'user_id' => 4,
+            'role_id' => 3
         ]);
 
         UserRole::create([
-            'user_id' => 4,
-            'role_id' => 5
+            'user_id' => 5,
+            'role_id' => 3
         ]);
     }
 }

@@ -23,14 +23,6 @@ class RoleSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => 'team leader'
-        ]);
-
-        Role::create([
-            'name' => 'team member'
-        ]);
-
-        Role::create([
             'name' => 'student'
         ]);
     }

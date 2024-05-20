@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileController;
@@ -17,9 +19,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Dashboard
-    Route::get('/', [StudentController::class, 'index'])
-                ->name('spcs-dashboard');
+    // Admins
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin-dashboard');
+    Route::get('/admin/show/instructors/cohort/{id?}', [AdminController::class, 'showInstructors'])->name('admin-show-instructors');
+    Route::get('/admin/show/instructors/instructor/{id?}', [AdminController::class, 'showInstructorDetails'])->name('admin-show-instructor-details');
+    Route::get('/admin/instructor/create', [AdminController::class, 'createInstructor'])->name('admin-create-instructor');
+
+    // Instructors
+    Route::get('/instuctors', [InstructorController::class, 'index'])->name('instructor-dashboard');
+
+    // Students
+    Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');
 });
 
 require __DIR__.'/auth.php';

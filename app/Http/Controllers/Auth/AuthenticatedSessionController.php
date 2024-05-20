@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,9 +31,26 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        
+        $userRole = User::query()->where('id',Auth::user()->id)->with('roles')->first()->roles->first()->name;
 
-        // return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->route('spcs-dashboard');
+        switch ($userRole) {
+            case 'admin':
+                return redirect()->route('admin-dashboard');
+                break;
+
+            case 'instructor':
+                return redirect()->route('instructor-dashboard');
+                break;
+
+            case 'student':
+                return redirect()->route('spcs-dashboard');
+                break;
+
+            default:
+                return redirect()->route('spcs-dashboard');
+                break;
+        }
     }
 
 

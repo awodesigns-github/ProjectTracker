@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>SPCS| Student Project Collaboration System</title>
+    <title>PTS| Project Tracking System</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="spcs">
@@ -64,10 +64,6 @@
         </main>
         {{-- End of main content --}}
 
-
-        <!-- rightbar icon div -->
-        {{-- @include('components.CustomRightSideBar') --}}
-        {{-- end of right --}} 
         </div>
 
         @include('components.footer')

@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 
 class InstructorController extends Controller
 {
+    private $userRole = 'instructor';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // find students with their respective cohorts
+        return view('spcs.index', [
+            'userRole' => $this->userRole
+        ]);
     }
 
     /**

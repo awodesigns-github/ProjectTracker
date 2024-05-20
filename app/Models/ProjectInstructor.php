@@ -9,10 +9,10 @@ class ProjectInstructor extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-    protected $table = "project_instructor";
     protected $fillable = [
         'project_id',
         'instructor_id'
     ];
+    protected $table = "project_instructor";
+    public $timestamps = false;
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-
+use App\Models\ProjectInstructor;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -35,6 +35,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'test4@example.com'
         ]);
 
+        $instructorTwo = User::factory()->create([
+            'name' => 'Jack Doe',
+            'email' => 'test5@example.com'
+        ]);
+
 
         $this->call(ProjectSeeder::class);
         $this->call(TaskSeeder::class);
@@ -50,6 +55,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModuleStudentSeeder::class);
         $this->call(ModuleTeamSeeder::class);
         $this->call(ProjectTeamSeeder::class);
+        $this->call(ProjectInstructorSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(RolePermissionSeeder::class);

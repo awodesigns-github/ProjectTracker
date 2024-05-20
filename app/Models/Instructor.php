@@ -30,4 +30,9 @@ class Instructor extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function instructorsCountPerCohort()
+    {
+        return self::with('cohort')->first()->cohort; 
+    }
 }

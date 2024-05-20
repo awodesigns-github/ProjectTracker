@@ -13,7 +13,6 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // create roles with permissions
         // admin permissions
         RolePermission::create([
             'role_id' => 1,
@@ -35,49 +34,10 @@ class RolePermissionSeeder extends Seeder
             'permission_id' => 4
         ]);
 
-        RolePermission::create([
-            'role_id' => 1,
-            'permission_id' => 5
-        ]);
-
-        RolePermission::create([
-            'role_id' => 1,
-            'permission_id' => 6
-        ]);
-
-        RolePermission::create([
-            'role_id' => 1,
-            'permission_id' => 7
-        ]);
-
-        RolePermission::create([
-            'role_id' => 1,
-            'permission_id' => 8
-        ]);
 
         // instructor permissions
         RolePermission::create([
             'role_id' => 2,
-            'permission_id' => 1
-        ]);
-
-        RolePermission::create([
-            'role_id' => 2,
-            'permission_id' => 2
-        ]);
-
-        RolePermission::create([
-            'role_id' => 2,
-            'permission_id' => 3
-        ]);
-
-        RolePermission::create([
-            'role_id' => 2,
-            'permission_id' => 4
-        ]);
-
-        RolePermission::create([
-            'role_id' => 2,
             'permission_id' => 5
         ]);
 
@@ -96,38 +56,45 @@ class RolePermissionSeeder extends Seeder
             'permission_id' => 8
         ]);
 
-        // Team leader permissions
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 9
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 10
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 11
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 12
+        ]);
+
+        // Student Permissions
         RolePermission::create([
             'role_id' => 3,
-            'permission_id' => 3
+            'permission_id' => 21
         ]);
 
         RolePermission::create([
             'role_id' => 3,
-            'permission_id' => 4
-        ]);
-
-        // Team member permissions
-        RolePermission::create([
-            'role_id' => 4,
-            'permission_id' => 3
+            'permission_id' => 22
         ]);
 
         RolePermission::create([
-            'role_id' => 4,
-            'permission_id' => 4
-        ]);
-
-        // student permissions
-        RolePermission::create([
-            'role_id' => 5,
-            'permission_id' => 3
+            'role_id' => 3,
+            'permission_id' => 23
         ]);
 
         RolePermission::create([
-            'role_id' => 5,
-            'permission_id' => 4
+            'role_id' => 3,
+            'permission_id' => 24
         ]);
-
     }
 }

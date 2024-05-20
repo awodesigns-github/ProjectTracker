@@ -3,7 +3,7 @@
         <div class="navbar-brand">
             <button type="button" class="btn-toggle-offcanvas"><i class="fa fa-bars"></i></button>
             <button type="button" class="btn-toggle-fullwidth"><i class="fa fa-bars"></i></button>
-            <a href="#">Student Project Collaboration System</a>                
+            <a href="#">Project Tracking System</a>                
         </div>
         
         <div class="navbar-right">
