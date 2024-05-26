@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Instructor;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InstructorController extends Controller
 {
@@ -13,9 +15,24 @@ class InstructorController extends Controller
      */
     public function index()
     {
-        // find students with their respective cohorts
-        return view('spcs.index', [
-            'userRole' => $this->userRole
+        // instructor details
+        $instructorDetails = Instructor::query()->where('id', Auth::user()->id)->first();
+        
+        // instructor's project count
+        $projectCount = Instructor::instructorProjectCount();
+
+        // project details
+        $projectDetails = Instructor::instructorProjectObject()->first()->project;
+        // dd($projectDetails);
+
+        // Tasks count per project
+        $tasksCount = Instructor::instructorTasksCountPerProject();
+
+        return view('spcs.instructor.index', [
+            'userRole' => $this->userRole,
+            'instructorDetails' => $instructorDetails,
+            'projectCount' => $projectCount,
+            'projectDetails' => $projectDetails
         ]);
     }
 

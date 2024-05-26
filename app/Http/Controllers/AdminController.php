@@ -29,13 +29,12 @@ class AdminController extends Controller
         $projects = Project::query()->with('task')->orderBy('name')->get();
         
         // Fetch instructors with their respective cohorts
-        $instructorCohortCount = Instructor::instructorsCountPerCohort();
-        // dd($instructorCohortCount);
+        $instructorCohortCount = Instructor::instructorsPerCohort();
 
         // Fetch all cohorts
         $cohortList = Cohort::query()->get();
 
-        return view('spcs.index', [
+        return view('spcs.admin.index', [
             'userRole' => $this->userRole,
             'instructorsCount' => $instructorsCount,
             'studentsCount' => $studentCount,
@@ -50,7 +49,7 @@ class AdminController extends Controller
      */
     public function createInstructor()
     {
-        return view('spcs.createInstructor', [
+        return view('spcs.admin.createInstructor', [
             //
         ]);
     }
@@ -91,7 +90,7 @@ class AdminController extends Controller
         $instructors = Cohort::query()->where('id', $id->id)->with('instructor')->first()->instructor;
         // dd($instructors);
 
-        return view('spcs.showInstructors', [
+        return view('spcs.admin.showInstructors', [
             'userRole' => $this->userRole,
             'cohortList' => $cohortList,
             'instructors' => $instructors
@@ -112,7 +111,7 @@ class AdminController extends Controller
         $instructorProjects = $instructors->project;
         // dd($instructorProjects);
 
-        return view('spcs.instructorDetails', [
+        return view('spcs.admin.instructorDetails', [
             'cohortList' => $cohortList,
             'userRole' => $this->userRole,
             'instructor' => $instructors,
