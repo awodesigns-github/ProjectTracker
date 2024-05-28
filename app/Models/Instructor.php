@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Instructor extends Model
@@ -55,10 +56,20 @@ class Instructor extends Model
 
     public static function instructorTasksCountPerProject()
     {
-        $projects = self::query()->where('user_id', Auth::user()->id)->with('project')->first()->project->with('task');
+        $projects = self::query()->where('user_id', Auth::user()->id)->with('project')->first()->project;
         
-        // create has many through relationship
+        $taskCount = 0;
+        foreach ($projects as $project) {
+            $taskCount += $project->task->count();
+        }
 
-        dd($projects);
+        return $taskCount;
+    }
+
+    public function scopeFilter($query, Request $request)
+    {
+        $query->when($request->filled('status'), function ($query) use ($request) {
+            $query->where('user_id', Auth::user()->id)->with('project');
+        });
     }
 }

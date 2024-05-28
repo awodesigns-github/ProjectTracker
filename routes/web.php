@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
 
     // Instructors
     Route::get('/instuctors', [InstructorController::class, 'index'])->name('instructor-dashboard');
+    Route::get('/instructors/sorted/all', [InstructorController::class, 'allResources'])->name('instructor-sorted-all');
 
     // Students
     Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
@@ -33,4 +34,11 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    // public function scopeFilter($query, Request $request)
+    // {
+    //     $query->when($request->filled('status'), function ($query) use ($request) {
+    //         $query->where('status', $request->input('status'));
+    //     });
+    // }
 }

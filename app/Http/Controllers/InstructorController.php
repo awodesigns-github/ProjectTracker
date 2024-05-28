@@ -23,7 +23,6 @@ class InstructorController extends Controller
 
         // project details
         $projectDetails = Instructor::instructorProjectObject()->first()->project;
-        // dd($projectDetails);
 
         // Tasks count per project
         $tasksCount = Instructor::instructorTasksCountPerProject();
@@ -32,6 +31,27 @@ class InstructorController extends Controller
             'userRole' => $this->userRole,
             'instructorDetails' => $instructorDetails,
             'projectCount' => $projectCount,
+            'projectDetails' => $projectDetails,
+            'taskCount' => $tasksCount
+        ]);
+    }
+
+    /**
+     * Show all resources
+     */
+    public function allResources(Request $request)
+    {
+        $projectDetails = Instructor::instructorProjectObject()->first()->project;
+
+        if ($request->ajax()) {
+            $projects = Instructor::query()->filter($request)->first()->project->where('status', $request->input('status'));
+            return response()->json([
+                'data' => $projects
+            ]);
+        }
+
+        return view('spcs.instructor.sort', [
+            'userRole' => $this->userRole,
             'projectDetails' => $projectDetails
         ]);
     }

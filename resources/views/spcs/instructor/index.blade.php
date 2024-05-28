@@ -48,7 +48,7 @@
                 <div class="icon"><i class="fa fa-tasks"></i> </div>
                 <div class="content">
                     <div class="text mb-2 text-uppercase">Tasks</div>
-                    <h4 class="number mb-0">N/A</h4>
+                    <h4 class="number mb-0">{{ $taskCount }}</h4>
                 </div>
             </div>
         </div>

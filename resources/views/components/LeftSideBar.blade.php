@@ -77,7 +77,7 @@
                         <li>
                             <a href="#Dashboard" class="has-arrow"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                             <ul>
-                                <li><a href="{{ route('spcs-dashboard') }}">Analytics</a></li>
+                                <li><a href="{{ route('instructor-dashboard') }}">Analytics</a></li>
                             </ul>
                         </li>
                         <li>
@@ -85,9 +85,7 @@
                             <ul>
                                 <li class="active"><a href="#" class="has-arrow">Entry List</a>
                                     <ul>
-                                        <li><a href="#">All</a></li>
-                                        <li><a href="#">Ongoing</a></li>
-                                        <li><a href="#">Closed</a></li>                                    
+                                        <li><a href="{{ route('instructor-sorted-all') }}">All</a></li>                                    
                                     </ul>
                                 </li>
                             </ul>
