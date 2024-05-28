@@ -35,7 +35,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover dataTable js-exportable table table-hover mb-0 c_list">
+                    <table class="table table-bordered table-striped table-hover dataTable table table-hover mb-0 c_list">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -48,7 +48,7 @@
                                 <tr>
                                     <td>{{ $details->name }}</td>
                                     <td>{{ $details->description }}</td>
-                                    <td>{{ $details->status }}</td>
+                                    <td>{{ $details->status == 'C' ? 'Closed' : 'Open' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -86,12 +86,12 @@
 
                     projectData = Object.values(projectData)
 
-                    if (projectData != null) {
+                    if (projectData.length > 0) {
                         for (let i = 0; i < projectData.length; i++) {
                             html += '<tr>\
                                 <td>' + projectData[i]['name'] + '</td>\
                                 <td>' + projectData[i]['description'] + '</td>\
-                                <td>' + projectData[i]['status'] + '</td>\
+                                <td>' + (projectData[i]['status'] === 'C' ? 'Closed' : 'Open') + '</td>\
                                 </tr>';
                         }
                         
