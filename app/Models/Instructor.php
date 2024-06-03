@@ -34,6 +34,11 @@ class Instructor extends Model
         return $this->hasManyThrough(Task::class, Project::class);
     }
 
+    public function student(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'instructor_student');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -70,6 +75,10 @@ class Instructor extends Model
     {
         $query->when($request->filled('status'), function ($query) use ($request) {
             $query->where('user_id', Auth::user()->id)->with('project');
+        });
+
+        $query->when($request->filled('cohort'), function ($query) use ($request) {
+            $query->where('user_id', Auth::user()->id)->with('student');
         });
     }
 }

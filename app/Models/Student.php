@@ -66,6 +66,11 @@ class Student extends Model implements Authenticatable
         return $this->belongsToMany(Module::class,'module_student');
     }
 
+    public function instructor(): BelongsToMany
+    {
+        return $this->belongsToMany(Instructor::class, 'instructor_student');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

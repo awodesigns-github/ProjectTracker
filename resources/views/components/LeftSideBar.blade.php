@@ -92,7 +92,7 @@
                                 <li><a href="{{ route('instructor-sorted-all') }}">View Projects</a></li>  
                             </ul>
                         </li>
-                        <li><a href="#Tasks"><i class="fa fa-flag"></i><span>Students</span></a></li>
+                        <li><a href="{{ route('instructor-sorted-students') }}"><i class="fa fa-flag"></i><span>Students</span></a></li>
                         <li><a href="#Tasks" class="has-arrow"><i class="fa fa-gears"></i><span>Activity</span></a>
                             <ul>
                                 <li><a href="#">Commits</a></li>
