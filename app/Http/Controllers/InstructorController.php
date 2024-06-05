@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cohort;
 use App\Models\Instructor;
 use App\Models\Project;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,7 +46,7 @@ class InstructorController extends Controller
         $projectDetails = Instructor::instructorProjectObject()->first()->project;
 
         if ($request->ajax()) {
-            $projects = Instructor::query()->filter($request)->first()->project->where('status', $request->input('status'));
+            $projects = Instructor::filter($request)->first()->project->where('status', $request->input('status'));
             return response()->json([
                 'data' => $projects
             ]);
@@ -53,6 +55,37 @@ class InstructorController extends Controller
         return view('spcs.instructor.sort', [
             'userRole' => $this->userRole,
             'projectDetails' => $projectDetails
+        ]);
+    }
+
+    /**
+     * Show all students
+     */
+    public function allStudents(Request $request)
+    {
+        $studentDetails = Instructor::query()->where('user_id', Auth::user()->id)->with('student')->first()->student;
+
+        if ($request->ajax()) {
+            if ($request->input('cohort')) {
+                $students = Instructor::filter($request)->first()->student->where('cohort_id', $request->input('cohort'));
+            } else {
+                $students = Instructor::filter($request)->first()->student->where('team_id', $request->input('team'));
+            }
+
+            $studentArray = [];
+            foreach ($students as $details) {
+                $student = Student::query()->where('id', $details->id)->with(['user', 'cohort', 'course', 'team'])->first();
+                $studentArray[] = $student;
+            }
+            
+            return response()->json([
+                'data' => $studentArray
+            ]);
+        } 
+        
+        return view('spcs.instructor.showStudents', [
+            'userRole' => $this->userRole,
+            'studentDetails' => $studentDetails,
         ]);
     }
 
