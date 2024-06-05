@@ -27,8 +27,8 @@
                         <div class="col-lg-6">
                             <div class="pb-2">
                                 <div class="c_multiselect">
-                                    <label for="status"><b>By Teams</b></label>
-                                    <select name="status" id="status_field" class="form-control unique-dropdown multiselect multiselect-custom" style="border: 1px solid rgb(216, 213, 213);">
+                                    <label for="team_filter"><b>By Teams</b></label>
+                                    <select name="team_id" id="team_filter" class="form-control unique-dropdown multiselect multiselect-custom" style="border: 1px solid rgb(216, 213, 213);">
                                         <option disabled selected>Available Teams</option>
                                         @foreach ($studentDetails as $teams)
                                             <option value="{{ $teams->team->id }}">{{ $teams->team->name }}</option>
@@ -58,7 +58,7 @@
                             <th>Course</th>
                             <th>Team</th>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody">
                             @foreach ($studentDetails as $details)
                                 <tr>
                                     <td>{{ $details->user->name }}</td>
@@ -87,27 +87,35 @@
         });
 
         $('.form-control').on('change', function () {
-            var data = $('#cohort_filter').val();
-           
-            console.log(data);
+            var cohortData = $('#cohort_filter').val();
+            var teamData = $('#team_filter').val();
             
             $.ajax({
                 type: "GET",
                 url: "{{ route('instructor-sorted-students') }}",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    cohort: data
+                    cohort: cohortData,
+                    team: teamData,
                 },
                 success: function (response) {
                     var studentData = response.data;
                     var html = '';
-                    // studentData = Object.values(studentData);
+                    
+                    studentData = Object.values(studentData);
 
                     console.log(studentData);
 
                     if (studentData.length > 0) {
                         for (let i = 0; i < studentData.length; i++) {
-                            console.log(studentData['github_username']);
+                            html += '<tr>\
+                                    <td>' + studentData[i].user.name  + '</td>\
+                                    <td>' + studentData[i].cohort.name + '-' + studentData[i]['registration_number'] + '</td>\
+                                    <td>' + studentData[i]['github_username'] + '</td>\
+                                    <td>' + studentData[i].cohort.name + '</td>\
+                                    <td>' + studentData[i].course.name + '</td>\
+                                    <td>' + studentData[i].team.name + '</td>\
+                                    </tr>';
                         }
                     } else {
                         html += '<tr><td colspan="6" class="text-center">No data found</td></tr>';
@@ -122,11 +130,3 @@
 @endsection
 
 
-{{-- html += '<tr>\
-    <td>' + studentData[i].user.name + '</td>\
-    <td>' + studentData[i].cohort.name + '-' + studentData[i]['registration_number'] + '</td>\
-    <td>' + studentData[i]['github_username'] + '</td>\
-    <td>' + studentData[i].cohort.name + '</td>\
-    <td>' + studentData[i].course.name + '</td>\
-    <td>' + studentData[i].team.name + '</td>\
-    </tr>'; --}}

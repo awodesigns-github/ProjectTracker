@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cohort;
 use App\Models\Instructor;
 use App\Models\Project;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,11 +66,22 @@ class InstructorController extends Controller
         $studentDetails = Instructor::query()->where('user_id', Auth::user()->id)->with('student')->first()->student;
 
         if ($request->ajax()) {
-            $students = Instructor::filter($request)->first()->student->where('cohort_id', $request->input('cohort'));
+            if ($request->input('cohort')) {
+                $students = Instructor::filter($request)->first()->student->where('cohort_id', $request->input('cohort'));
+            } else {
+                $students = Instructor::filter($request)->first()->student->where('team_id', $request->input('team'));
+            }
+
+            $studentArray = [];
+            foreach ($students as $details) {
+                $student = Student::query()->where('id', $details->id)->with(['user', 'cohort', 'course', 'team'])->first();
+                $studentArray[] = $student;
+            }
+            
             return response()->json([
-                'data' => $students
+                'data' => $studentArray
             ]);
-        }
+        } 
         
         return view('spcs.instructor.showStudents', [
             'userRole' => $this->userRole,

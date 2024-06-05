@@ -80,5 +80,9 @@ class Instructor extends Model
         $query->when($request->filled('cohort'), function ($query) use ($request) {
             $query->where('user_id', Auth::user()->id)->with('student');
         });
+
+        $query->when($request->filled('team'), function ($query) use ($request) {
+            $query->where('user_id', Auth::user()->id)->with('student');
+        });
     }
 }
