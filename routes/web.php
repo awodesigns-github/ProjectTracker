@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\GithubController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
@@ -33,5 +34,7 @@ Route::middleware('auth')->group(function () {
     // Students
     Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');
 });
+
+Route::get('/github/{username}/repos', [GitHubController::class, 'getUserRepositories'])->name('github-repos');
 
 require __DIR__.'/auth.php';
