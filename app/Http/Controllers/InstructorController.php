@@ -19,6 +19,7 @@ class InstructorController extends Controller
     {
         $this->gitHubService = $gitHubService;
     }
+    
     /**
      * Display a listing of the resource.
      */
