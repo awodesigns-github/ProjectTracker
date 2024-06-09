@@ -17,6 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->date('date_of_birth');
+            $table->string('nationality');
+            $table->enum('marital_status', ['Single', 'Married', 'Divorced']);
+            $table->string('home_address');
+            $table->string('primary_phone_number');
+            $table->string('secondary_phone_number');
+            $table->string('emergency_contact_name');
+            $table->string('emergency_contact_phone_number');
+            $table->string('emergency_contact_relationship');
+            $table->string('social_security_number')->nullable();
+            $table->string('passport_number')->nullable();
+            $table->string('driver_license')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

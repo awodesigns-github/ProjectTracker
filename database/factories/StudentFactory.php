@@ -22,7 +22,6 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         return [
-            'phone_number' => $this->faker->phoneNumber(),
             'registration_number' => $this->faker->numberBetween(1000, 9999),
             'github_username' => $this->faker->userName(),
             'user_id' => $this->faker->numberBetween(1, 2),

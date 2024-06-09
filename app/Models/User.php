@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,6 +25,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'date_of_birth',
+        'nationality',
+        'marital_status',
+        'home_address',
+        'primary_phone_number',
+        'secondary_phone_number',
+        'emergency_contact_name',
+        'emergency_contact_phone_number',
+        'emergency_contact_relationship',
+        'social_security_number',
+        'passport_number',
+        'driver_license',
     ];
 
     /**
@@ -44,7 +59,35 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'social_security_number' => 'hashed',
+            'passport_number' => 'hashed',
+            'driver_license' => 'hashed',
+            'date_of_birth' => 'datetime:Y-m-d',
         ];
+    }
+
+    protected function socialSecurityNumber(): CastsAttribute
+    {
+        return CastsAttribute::make(
+            get: fn (string $value) => $value,
+            set: fn (string $value) => bcrypt($value),
+        );
+    }
+
+    protected function passportNumber(): CastsAttribute
+    {
+        return CastsAttribute::make(
+            get: fn (string $value) => $value,
+            set: fn (string $value) => bcrypt($value),
+        );
+    }
+
+    protected function driverLicense(): CastsAttribute
+    {
+        return CastsAttribute::make(
+            get: fn (string $value) => $value,
+            set: fn (string $value) => bcrypt($value),
+        );
     }
 
     public function roles(): BelongsToMany
