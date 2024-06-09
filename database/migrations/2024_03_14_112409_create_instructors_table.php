@@ -16,9 +16,8 @@ return new class extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_Id')->uniqid("EMP-");
+            $table->string('employee_Id')->uniqid(["EMP-"]);
             $table->string('github_username');
-            $table->string('phone_number');
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Campus::class);
             $table->timestamps();

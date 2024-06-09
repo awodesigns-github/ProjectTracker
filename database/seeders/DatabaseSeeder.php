@@ -15,29 +15,74 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $studentOne = User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Joseph Mushi',
-            'email' => 'test@example.com',
-        ]);
-
-        $studentTwo = User::factory()->create([
-            'name' => 'Jack Smith',
-            'email' => 'test2@example.com'
+            'email' => 'test0@example.com',
+            'date_of_birth' => '2000-01-01',
+            'nationality' => 'Tanzanian',
+            'marital_status' => 'single',
+            'home_address' => 'Arusha, Tanzania',
+            'primary_phone_number' => '0712345678',
+            'secondary_phone_number' => '0712345678',
+            'emergency_contact_name' => 'Claretha',
+            'emergency_contact_phone_number' => '0712345678',
+            'emergency_contact_relationship' => 'Mother',
         ]);
 
         $instructorOne = User::factory()->create([
-            'name' => 'Jane Doe',
-            'email' => 'test3@example.com'
-        ]);
-
-        $instructorTwo = User::factory()->create([
             'name' => 'John Doe',
-            'email' => 'test4@example.com'
+            'email' => 'test1@example.com',
+            'date_of_birth' => '2000-03-01',
+            'nationality' => 'American',
+            'marital_status' => 'Married',
+            'home_address' => 'Washington DC, America',
+            'primary_phone_number' => '0712345678',
+            'secondary_phone_number' => '0712345678',
+            'emergency_contact_name' => 'Jane',
+            'emergency_contact_phone_number' => '0712345678',
+            'emergency_contact_relationship' => 'Mother',
         ]);
 
         $instructorTwo = User::factory()->create([
-            'name' => 'Jack Doe',
-            'email' => 'test5@example.com'
+            'name' => 'Jack Odinga',
+            'email' => 'test2@example.com',
+            'date_of_birth' => '2000-02-01',
+            'nationality' => 'Kenyan',
+            'marital_status' => 'single',
+            'home_address' => 'Arusha, Tanzania',
+            'primary_phone_number' => '0712345678',
+            'secondary_phone_number' => '0712345678',
+            'emergency_contact_name' => 'Claretha',
+            'emergency_contact_phone_number' => '0712345678',
+            'emergency_contact_relationship' => 'Mother',
+        ]);
+
+        $studentOne = User::factory()->create([
+            'name' => 'Jane Doe',
+            'email' => 'test3@example.com',
+            'date_of_birth' => '2000-04-01',
+            'nationality' => 'Tanzanian',
+            'marital_status' => 'single',
+            'home_address' => 'Arusha, Tanzania',
+            'primary_phone_number' => '0712345678',
+            'secondary_phone_number' => '0712345678',
+            'emergency_contact_name' => 'Claretha',
+            'emergency_contact_phone_number' => '0712345678',
+            'emergency_contact_relationship' => 'Mother',
+        ]);
+
+        $instructorTwo = User::factory()->create([
+            'name' => 'Job Doe',
+            'email' => 'test4@example.com',
+            'date_of_birth' => '2000-05-01',
+            'nationality' => 'Ugandan',
+            'marital_status' => 'Married',
+            'home_address' => 'Kampala, Uganda',
+            'primary_phone_number' => '0712345678',
+            'secondary_phone_number' => '0712345678',
+            'emergency_contact_name' => 'Robert',
+            'emergency_contact_phone_number' => '0712345678',
+            'emergency_contact_relationship' => 'Father',
         ]);
 
 

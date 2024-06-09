@@ -18,9 +18,8 @@ class InstructorFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_id' => $this->faker->swiftBicNumber(),
+            'employee_id' => "EMP-".$this->faker->swiftBicNumber(),
             'github_username' => $this->faker->userName(),
-            'phone_number' => $this->faker->phoneNumber(),
             'user_id' => $this->faker->numberBetween(3, 4),
             'campus_id' => $this->faker->numberBetween(1, 10)
         ];
