@@ -3,7 +3,7 @@
 <div class="block-header">
     <div class="row align-items-center">
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <h2>Instructor</h2>
+            <h2>Instructor Profile</h2>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i></a></li> 
                 <li class="breadcrumb-item">Instructor</li>                           
@@ -52,13 +52,13 @@
                                         </div>
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Github : </b></label>
-                                            <p class="pl-2">github.com/{{ $instructor->github_username }}</p>
+                                            <p class="pl-2"><a href="https://www.github.com/{{ $instructor->github_username }}" target="_blank">github.com/{{ $instructor->github_username }}</a></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Phone Number : </b></label>
-                                            <p class="pl-2">{{ $instructor->phone_number }}</p>
+                                            <p class="pl-2">{{ $instructor->user->primary_phone_number }}</p>
                                         </div>
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Campus : </b></label>
@@ -71,6 +71,36 @@
                                     </div>
                                 </div>
                                 <hr>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Nationality : </b></label>
+                                            <p class="pl-2">{{ $instructor->user->nationality }}</p>
+                                        </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Marital status : </b></label>
+                                            <p class="pl-2">{{ $instructor->user->marital_status }}</p>
+                                        </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Emergency Contact : </b></label>
+                                            <p class="pl-2">{{ $instructor->user->emergency_contact_name }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Phone Number : </b></label>
+                                            <p class="pl-2">{{ $instructor->user->primary_phone_number }}</p>
+                                        </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Auxiliary phone number : </b></label>
+                                            <p class="pl-2">{{ $instructor->user->secondary_phone_number }}</p>
+                                        </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Emergency Contact Phone Number: </b></label>
+                                            <p class="pl-2">{{ $instructor->user->emergency_contact_phone_number }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="tab-pane" id="projects">

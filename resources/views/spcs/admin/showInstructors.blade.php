@@ -70,7 +70,7 @@
                                     <td>{{ $instructor->user->email }}</td>
                                     <td>{{ $instructor->employee_Id }}</td>
                                     <td>{{ $instructor->github_username }}</td>
-                                    <td>{{ $instructor->phone_number }}</td>
+                                    <td>{{ $instructor->user->primary_phone_number }}</td>
                                     <td>{{ $instructor->campus->name }}</td>
                                     <td>    
                                         <a href="{{ route('admin-show-instructor-details', ['id' => $instructor->id]) }}" style="color: white;"><button type="button" class="btn btn-primary" data-toggle="tooltip" title="View Details"><span class="sr-only">View</span><i class="icon-eye"></i></button></a>
