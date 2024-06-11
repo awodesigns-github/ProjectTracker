@@ -36,4 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');
 });
 
+Route::get('/github/users/{username}', [GithubController::class, 'getAuthenticatedUserInfo'])->name('github-user-info');
+Route::get('/github/users/{username}/repos', [GithubController::class, 'getRepositories']);
+
 require __DIR__.'/auth.php';
