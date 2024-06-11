@@ -100,9 +100,11 @@ class InstructorController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createProject()
     {
-        //
+        return view('instructor.createProject', [
+            //
+        ]);
     }
 
     /**

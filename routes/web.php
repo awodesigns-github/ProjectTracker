@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/instuctors', [InstructorController::class, 'index'])->name('instructor-dashboard');
     Route::get('/instructors/sorted/all', [InstructorController::class, 'allResources'])->name('instructor-sorted-all');
     Route::get('/instructors/sorted/all/students', [InstructorController::class, 'allStudents'])->name('instructor-sorted-students');
+    Route::get('/instructors/create/project', [InstructorController::class])->name('instructor-create-project');
 
     // Students
     Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');

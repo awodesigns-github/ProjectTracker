@@ -15,7 +15,7 @@
             <div class="d-flex flex-row-reverse">
                 @if ($userRole == 'admin')
                 <div class="page_action">
-                    <a href="#"><button class="btn btn-dark"><i class="icon-plus"></i> Add an Instructor to this cohort</button></a>
+                    <a href="{{ route('admin-create-instructor') }}"><button class="btn btn-dark"><i class="icon-plus"></i> Add an Instructor to this cohort</button></a>
                 </div>
                 @endif
 

@@ -85,11 +85,10 @@
                             <ul>
                                 <li class="active"><a href="#" class="has-arrow">Entry List</a>
                                     <ul>
-                                        <li><a href="#">Projects</a></li>
+                                        <li><a href="{{ route('instructor-sorted-all') }}">Projects</a></li>
                                         <li><a href="#">Tasks</a></li>                                
                                     </ul>
-                                </li>
-                                <li><a href="{{ route('instructor-sorted-all') }}">View Projects</a></li>  
+                                </li> 
                             </ul>
                         </li>
                         <li><a href="{{ route('instructor-sorted-students') }}"><i class="fa fa-flag"></i><span>Students</span></a></li>

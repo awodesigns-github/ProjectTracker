@@ -20,6 +20,33 @@
 </div>
 
 {{-- Section 2 --}}
+
+{{-- 
+
+IDEA: Only create the project forms, the instructor and student registration form will be created last
+
+Details to capture
+
+Instructor name -- Done
+email address -- Done
+DoB
+Employee Id -- Auto generated
+Cohort -- Auto generated
+Nationality -- Done
+Martial status
+Home address
+Primary phone number
+Aux phone number
+Emergency contact name
+Emergency contact phone number
+Emergency contact relationship
+Social Security Number
+Passport number
+Driver's license ... DOCUMENT
+github username
+
+--}}
+
 <div class="body">
     <form action="#" id="wizard_with_validation" method="POST">
         @csrf
@@ -29,37 +56,39 @@
             
             <h6><b>Personal Details</b></h6>
             <hr>
-            <div class="pb-2">
-                <div>
-                    <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Instructor full name" value="{{ old('name')}}" style="border: 1px solid rgb(216, 213, 213);">
+
+            <div class="input-group pb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
                 </div>
+                <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Your full name..." value="{{ old('name')}}" style="border: 1px solid rgb(216, 213, 213);">
             </div>
-
-            {{-- DoB, Gender, Nationality, Marital status, Home address, Phone number (Home and Mobile), 
-                Emergency Contacts(name, relationship, phone number), 
-                
-                Identification Information (SSN, Passport Number, Driver's Licence), 
-                
-                
-                --}}
-
             @error('name')
                 <small class="text-danger">{{ $message }}</small>
             @enderror
-            <div class="pb-2 d-flex justify-content-between">
-                @if ($variable == "Server")
-                <div>
-                    <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="email" style="border: 1px solid rgb(216, 213, 213);">
+
+            <div class="input-group pb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                 </div>
-                @endif
-                <div>
-                    <input type="text" name="employee_Id" class="form-control @error('employee_Id') is-invalid @enderror" value="{{ old('employee_Id') }}" style="border: 1px solid rgb(216, 213, 213);">
-                </div>
-                <div>
-                    <input type="text" name="github_username" class="form-control @error('serial_number') is-invalid @enderror" value="{{ old('github_username') }}" placeholder="github username e.g: mygithub" style="border: 1px solid rgb(216, 213, 213);">
-                </div>
+                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder=" email e.g: example@email.com " style="border: 1px solid rgb(216, 213, 213);">
             </div>
-            <div class="pb-2 c_multiselect">
+
+            <div class="input-group pb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-map-marker-alt"></i></span>
+                </div>
+                <input type="text" name="home_address" class="form-control @error('home_address') is-invalid @enderror" value="{{ old('home_address') }}" placeholder="home address e.g: Arusha, Tanzania" style="border: 1px solid rgb(216, 213, 213);">
+            </div>
+
+            <div class="input-group pb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-map"></i></span>
+                </div>
+                <input type="text" name="nationality" class="form-control @error('nationality') is-invalid @enderror" value="{{ old('nationality') }}" placeholder="e.g: Tanzanian" style="border: 1px solid rgb(216, 213, 213);">
+            </div>
+
+            <div class="pb-3 c_multiselect">
                 <select name="campus_id" class="form-control unique-dropdown multiselect multiselect-custom @error('campus_id') is-invalid @enderror" style="border: 1px solid rgb(216, 213, 213);">
                     <option disabled selected>Assign Campus</option>
                 </select>
@@ -68,12 +97,12 @@
             <small class="text-danger">{{ $message }}</small>
             @enderror
 
-            <div class="pb-2 c_multiselect">
-                <select name="cohort_id" class="form-control unique-dropdown multiselect multiselect-custom @error('cohort_id') is-invalid @enderror" style="border: 1px solid rgb(216, 213, 213);">
-                    <option disabled selected>Assign Cohort</option>
+            <div class="pb-3 c_multiselect">
+                <select name="marital_status" class="form-control unique-dropdown multiselect multiselect-custom @error('marital_status') is-invalid @enderror" style="border: 1px solid rgb(216, 213, 213);">
+                    <option disabled selected>Marital status</option>
                 </select>
             </div>
-            @error('cohort_id')
+            @error('campus_id')
             <small class="text-danger">{{ $message }}</small>
             @enderror
         </section>

@@ -49,8 +49,11 @@ class AdminController extends Controller
      */
     public function createInstructor()
     {
+        $cohortList = Cohort::query()->get();
+        
         return view('spcs.admin.createInstructor', [
-            //
+            'userRole' => $this->userRole,
+            'cohortList' => $cohortList
         ]);
     }
 
