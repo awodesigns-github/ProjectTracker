@@ -6,19 +6,12 @@ use App\Models\Cohort;
 use App\Models\Instructor;
 use App\Models\Project;
 use App\Models\Student;
-use App\Services\GitHubService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class InstructorController extends Controller
 {
     private $userRole = 'instructor';
-    protected $gitHubService;
-
-    public function __construct(GitHubService $gitHubService)
-    {
-        $this->gitHubService = $gitHubService;
-    }
     
     /**
      * Display a listing of the resource.
