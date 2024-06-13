@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class InstructorController extends Controller
 {
@@ -100,7 +101,7 @@ class InstructorController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new project.
      */
     public function createProject()
     {
@@ -110,6 +111,53 @@ class InstructorController extends Controller
             'userRole' => $this->userRole,
             'modules' => $modules
         ]);
+    }
+
+    /**
+     * Show the form for creating a new task.
+     */
+    public function createTask(Project $id)
+    {
+        return view('spcs.instructor.createTask', [
+            'userRole' => $this->userRole,
+            'projectName' => $id->name,
+            'projectId' => $id->id
+        ]);
+    }
+
+    public function storeTask(Request $request)
+    {
+        $request->validate([
+            'task_name' =>'required',
+            'task_description' =>'required|max:255',
+            'project_id' =>'required',
+            'task_file' =>'required|file|mimes:pdf,docx|max:2048'
+        ]);
+
+        if ($request->hasFile('task_file')) {
+            $taskFile = $request->file('task_file')->store('public');
+            $taskUrl = asset('storage/'.basename($taskFile));
+        }
+
+        try {
+            DB::beginTransaction();
+    
+            $task = Task::create([
+                'task_name' => $request->task_name,
+                'task_description' => $request->task_description,
+                'project_id' => $request->project_id,
+                'task_url' => $taskUrl,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('instructor-dashboard')->with('taskCreationSuccess', 'Task added successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            return redirect()->back();
+        }
+
     }
 
     /**
@@ -129,6 +177,7 @@ class InstructorController extends Controller
 
         if ($request->hasFile('task_file')) {
             $taskFile = $request->file('task_file')->store('public');
+            $taskUrl = asset('storage/'.basename($taskFile));
         }
 
         try {
@@ -145,7 +194,7 @@ class InstructorController extends Controller
                 'task_name' => $request->task_name,
                 'task_description' => $request->task_description,
                 'project_id' => $project->id,
-                'task_url' => $request->task_url,
+                'task_url' => $taskUrl,
             ]);
 
             $projectInstructor = ProjectInstructor::create([

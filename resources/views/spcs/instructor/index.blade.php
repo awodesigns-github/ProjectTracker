@@ -6,7 +6,7 @@
             <h2>Analytics</h2>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i></a></li>                            
-                <li class="breadcrumb-item">PTS</li>
+                <li class="breadcrumb-item">POLS</li>
                 <li class="breadcrumb-item active">Analytics</li>
             </ul>
         </div>
@@ -82,7 +82,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="card" style="border: none;">
             <div class="header">    
                 <h2 class="text-muted"><b>Progress</b></h2>
@@ -92,7 +92,10 @@
             </div>
         </div> 
     </div>
-    <div class="col-lg-6">
+</div> 
+
+<div class="row">
+    <div class="col-lg-12">
         <div class="card" style="border: none;">
             <div class="header">
                 <h2 class="text-muted"><b>Contributions</b></h2>

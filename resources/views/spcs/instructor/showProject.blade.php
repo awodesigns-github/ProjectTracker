@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="block-header">
-    <div class="row align-items-center">
+    <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12">
             <h2>Project Details</h2>
             <ul class="breadcrumb">
@@ -9,6 +9,16 @@
                 <li class="breadcrumb-item">Project</li>                           
                 <li class="breadcrumb-item">{{ $projectDetails->name }}</li>
             </ul>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="d-flex flex-row-reverse">
+                <div class="page_action">
+                    <a href="{{ route('instructor-add-task', ['id' => $projectDetails->id]) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add a task</a>
+                </div>
+                <div class="p-2 d-flex">
+                    
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -130,7 +140,11 @@
                                                             In Progress
                                                         @endif
                                                     </td>
-                                                    <td>{{ ($task->task_url == NULL || $task->task_url) == 'null' ? 'No' : 'Yes'}}</td>
+                                                    <td>{{ $task->task_url == NULL ? 'No' : 'Yes | '}}
+                                                        @if ($task->task_url != NULL)
+                                                        <a href="{{ $task->task_url }}" target="_blank"> <i class="fa fa-download"></i> Download</a> 
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $task->created_at }}</td>
                                                 </tr>
                                                 @endforeach

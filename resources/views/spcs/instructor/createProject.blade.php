@@ -33,7 +33,7 @@ instructor name
     <form action="{{ route('instructor-store-project') }}" id="wizard_with_validation" method="POST" enctype="multipart/form-data">
         @csrf
         @method("POST")
-        <h2><i class="icon-plus"></i> Add Instructor details</h2>
+        <h2><i class="icon-plus"></i> Add Project details</h2>
         <section style="min-height: 60vh; max-height: 60vh;">
             
             <h6><b>Project Details</b></h6>

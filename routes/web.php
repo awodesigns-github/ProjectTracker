@@ -27,12 +27,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/instructor/create', [AdminController::class, 'createInstructor'])->name('admin-create-instructor');
 
     // Instructors
-    Route::get('/instuctors', [InstructorController::class, 'index'])->name('instructor-dashboard');
+    Route::get('/instructors', [InstructorController::class, 'index'])->name('instructor-dashboard');
     Route::get('/instructors/sorted/all', [InstructorController::class, 'allResources'])->name('instructor-sorted-all');
     Route::get('/instructors/sorted/all/students', [InstructorController::class, 'allStudents'])->name('instructor-sorted-students');
     Route::get('/instructors/create/addProject', [InstructorController::class, 'createProject'])->name('instructor-create-project');
     Route::post('instructors/create/storeProject', [InstructorController::class, 'store'])->name('instructor-store-project');
     Route::get('/instructors/show/project/{id?}', [InstructorController::class, 'showProjectDetails'])->name('instructor-show-project');
+    Route::get('/instructors/show/project/{id?}/addTask', [InstructorController::class, 'createTask'])->name('instructor-add-task');
+    Route::post('/instructors/create/storeTask', [InstructorController::class, 'storeTask'])->name('instructor-store-task');
 
     // Students
     Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');

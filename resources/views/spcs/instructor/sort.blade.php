@@ -15,7 +15,6 @@
             <div class="d-flex flex-row-reverse">
                 <div class="page_action">
                     <a href="{{ route('instructor-create-project') }}" class="btn btn-primary"><i class="fa fa-cube"></i> Create a new Project</a>
-                    <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add a task</a>
                 </div>
                 <div class="p-2 d-flex">
                     
