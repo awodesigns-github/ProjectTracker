@@ -13,6 +13,35 @@ class ModuleSeeder extends Seeder
      */
     public function run(): void
     {
-        Module::factory()->count(25)->create();
+        // Modules Seeder
+        Module::factory()->create([
+            'name' => 'Artificial Intelligence',
+            'course_id' => 1,
+            'instructor_id' => 1
+        ]);
+
+        Module::factory()->create([
+            'name' => 'Networking',
+            'course_id' => 1,
+            'instructor_id' => 1
+        ]);
+
+        Module::factory()->create([
+            'name' => 'System Administration',
+            'course_id' => 1,
+            'instructor_id' => 1
+        ]);
+
+        Module::factory()->create([
+            'name' => 'Mobile Development',
+            'course_id' => 1,
+            'instructor_id' => 1
+        ]);
+
+        Module::factory()->create([
+            'name' => 'Project Management',
+            'course_id' => 1,
+            'instructor_id' => 1
+        ]);
     }
 }

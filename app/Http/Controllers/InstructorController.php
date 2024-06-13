@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Cohort;
 use App\Models\Instructor;
+use App\Models\Module;
 use App\Models\Project;
+use App\Models\ProjectInstructor;
 use App\Models\Student;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class InstructorController extends Controller
 {
@@ -45,9 +50,11 @@ class InstructorController extends Controller
     public function allResources(Request $request)
     {
         $projectDetails = Instructor::instructorProjectObject()->first()->project;
+        $modules = Instructor::query()->where('user_id', Auth::user()->id)->first()->module;
 
         if ($request->ajax()) {
             $projects = Instructor::filter($request)->first()->project->where('status', $request->input('status'));
+            $projectsByModule = Instructor::filter($request)->first()->project->where('module_id', $request->input('module'));
             return response()->json([
                 'data' => $projects
             ]);
@@ -55,7 +62,8 @@ class InstructorController extends Controller
 
         return view('spcs.instructor.sort', [
             'userRole' => $this->userRole,
-            'projectDetails' => $projectDetails
+            'projectDetails' => $projectDetails,
+            'modules' => $modules
         ]);
     }
 
@@ -83,6 +91,7 @@ class InstructorController extends Controller
                 'data' => $studentArray
             ]);
         } 
+
         
         return view('spcs.instructor.showStudents', [
             'userRole' => $this->userRole,
@@ -95,8 +104,11 @@ class InstructorController extends Controller
      */
     public function createProject()
     {
-        return view('instructor.createProject', [
-            //
+        $modules = Module::query()->get();
+
+        return view('spcs.instructor.createProject', [
+            'userRole' => $this->userRole,
+            'modules' => $modules
         ]);
     }
 
@@ -105,7 +117,66 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $instructorId = Instructor::query()->where('user_id', Auth::user()->id)->first();
+
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required|max:255',
+            'status' => 'required',
+            'module_id' => 'required',
+            'task_file' => 'required|file|mimes:pdf,docx|max:2048'
+        ]);
+
+        if ($request->hasFile('task_file')) {
+            $taskFile = $request->file('task_file')->store('public');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $project = Project::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'status' => $request->status,
+                'module_id' => $request->module_id,
+            ]);
+    
+            $task = Task::create([
+                'task_name' => $request->task_name,
+                'task_description' => $request->task_description,
+                'project_id' => $project->id,
+                'task_url' => $request->task_url,
+            ]);
+
+            $projectInstructor = ProjectInstructor::create([
+                'project_id' => $project->id,
+                'instructor_id' => $instructorId->id,
+            ]);
+            DB::commit();
+
+            return redirect()->route('instructor-dashboard')->with('creationSuccess', 'Project created successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            return redirect()->back();
+        }
+    }
+
+
+    /**
+     * Display the specified project information
+     */
+    public function showProjectDetails(Project $id)
+    {
+        $projectDetails = Project::query()->where('id', $id->id)->with(['task', 'module'])->first();
+        $projectTasks = $projectDetails->task;
+        $projectStudents = $projectDetails->module->student;
+        return view('spcs.instructor.showProject',[
+            'userRole' => $this->userRole,
+            'projectDetails' => $projectDetails,
+            'projectTasks' => $projectTasks,
+            'projectStudents' => $projectStudents
+        ]);
     }
 
     /**

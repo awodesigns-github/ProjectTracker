@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,11 @@ class Instructor extends Model
         return $this->belongsToMany(Student::class, 'instructor_student');
     }
 
+    public function module(): BelongsToMany
+    {
+        return $this->belongsToMany(Module::class, 'instructor_module');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -55,7 +61,7 @@ class Instructor extends Model
     }
 
     public static function instructorProjectCount()
-    {
+    { 
         return self::query()->where('user_id', Auth::user()->id)->with('project')->first()->project->count();   
     }
 
@@ -84,5 +90,11 @@ class Instructor extends Model
         $query->when($request->filled('team'), function ($query) use ($request) {
             $query->where('user_id', Auth::user()->id)->with('student');
         });
+
+        $query->when($request->filled('module_id'), function ($query) use ($request) {
+            $query->where('user_id', Auth::user()->id)->with('project');
+        });
+
+        return $query;
     }
 }

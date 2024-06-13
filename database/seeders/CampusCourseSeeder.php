@@ -17,14 +17,13 @@ class CampusCourseSeeder extends Seeder
      */
     public function run(): void
     {
-        // CampusCourse::factory()->count(25)->create();
         $faker  = Faker::create();
 
         $courses = Course::all();
         $campuses = Campus::all();
 
         foreach ($courses as $course) {
-            $campusCount = $faker->numberBetween(1, 3);
+            $campusCount = 1;
             $course->campus()->attach(
                 $campuses->random($campusCount)->pluck('id')
             );

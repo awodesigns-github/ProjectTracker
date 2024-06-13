@@ -2,7 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cohort;
+use App\Models\Course;
+use App\Models\Instructor;
+use App\Models\InstructorStudent;
+use App\Models\Module;
+use App\Models\ModuleStudent;
 use App\Models\ProjectInstructor;
+use App\Models\Student;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -85,6 +92,11 @@ class DatabaseSeeder extends Seeder
             'emergency_contact_relationship' => 'Father',
         ]);
 
+    
+        
+
+        
+
 
         $this->call(ProjectSeeder::class);
         $this->call(TaskSeeder::class);
@@ -105,5 +117,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(RolePermissionSeeder::class);
         $this->call(UserRoleSeeder::class);
+        $this->call(InstructorStudentSeeder::class);
+        $this->call(InstructorModuleSeeder::class);
     }
 }

@@ -21,8 +21,8 @@ class TaskFactory extends Factory
         $status = $this->faker->randomElement(['C', 'I', 'P']);
 
         return [
-            'name' => $this->faker->words(3, true),
-            'description' => $this->faker->sentence(),
+            'task_name' => $this->faker->words(3, true),
+            'task_description' => $this->faker->sentence(),
             'status' => $status,
             'project_id' => $this->faker->numberBetween(1, 10)
         ];

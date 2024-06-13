@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->enum('status', ['C', 'I', 'P']); // C - Completed, I - In progress, P - Pending
+            $table->enum('status', ['C', 'I', 'P'])->default('I'); // C - Completed, I - In progress, P - Pending
             $table->foreignIdFor(Project::class);
             $table->timestamps();
         });

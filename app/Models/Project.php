@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
+
+    protected $fillable = [
+        'name',
+        'description',
+        'status',
+        'module_id'
+    ];
+
     use HasFactory;
 
     public function instructors(): BelongsToMany

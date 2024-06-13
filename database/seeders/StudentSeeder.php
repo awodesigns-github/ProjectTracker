@@ -17,6 +17,25 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
-        Student::factory(2)->create();
+        // Student seeder
+        Student::factory()->create([
+            'registration_number' => 'CS-100-1',
+            'github_username' => 'awodesigns-github',
+            'user_id' => 4,
+            'cohort_id' => 1,
+            'campus_id' => 1,
+            'course_id' => 1,
+            'team_id' => 1
+        ]);
+
+        Student::factory()->create([
+            'registration_number' => 'CS-101-1',
+            'github_username' => 'octocat',
+            'user_id' => 5,
+            'cohort_id' => 1,
+            'campus_id' => 1,
+            'course_id' => 1,
+            'team_id' => 1
+        ]);
     }
 }

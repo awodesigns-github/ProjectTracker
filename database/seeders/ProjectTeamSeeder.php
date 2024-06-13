@@ -23,7 +23,7 @@ class ProjectTeamSeeder extends Seeder
         $teams = Team::all();
 
         foreach ($projects as $project) {
-            $teamCount = $faker->numberBetween(1, 10);
+            $teamCount = 5;
             $project->team()->attach(
                 $teams->random($teamCount)->pluck('id')
             );

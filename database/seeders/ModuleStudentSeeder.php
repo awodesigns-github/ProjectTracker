@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Models\Module;
+use App\Models\ModuleStudent;
 
 class ModuleStudentSeeder extends Seeder
 {
@@ -15,17 +16,56 @@ class ModuleStudentSeeder extends Seeder
      */
     public function run(): void
     {
-        // ModuleStudent::factory()->count(25)->create();
-        $faker  = Faker::create();
+        // Module student
+        ModuleStudent::create([
+            'module_id' => 1,
+            'student_id' => 1
+        ]);
 
-        $students = Student::all();
-        $modules = Module::all();
+        ModuleStudent::create([
+            'module_id' => 2,
+            'student_id' => 1
+        ]);
 
-        foreach ($students as $student) {
-            $moduleCount = $faker->numberBetween(1, 10);
-            $student->module()->attach(
-                $modules->random($moduleCount)->pluck('id')
-            );
-        }
+        ModuleStudent::create([
+            'module_id' => 3,
+            'student_id' => 1
+        ]);
+
+        ModuleStudent::create([
+            'module_id' => 4,
+            'student_id' => 1
+        ]);
+
+        ModuleStudent::create([
+            'module_id' => 5,
+            'student_id' => 1
+        ]);
+
+        ModuleStudent::create([
+            'module_id' => 1,
+            'student_id' => 2
+        ]);
+
+        ModuleStudent::create([
+            'module_id' => 2,
+            'student_id' => 2
+        ]);
+
+        ModuleStudent::create([
+            'module_id' => 3,
+            'student_id' => 2
+        ]);
+
+    
+        ModuleStudent::create([
+            'module_id' => 4,
+            'student_id' => 2
+        ]);
+
+        ModuleStudent::create([
+            'module_id' => 5,
+            'student_id' => 2
+        ]);
     }
 }

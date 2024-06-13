@@ -13,6 +13,9 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
-        Course::factory(10)->create();
+        // Course seeder
+        Course::factory()->create([
+            'name' => 'Computer Science'
+        ]);
     }
 }

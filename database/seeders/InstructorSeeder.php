@@ -13,6 +13,19 @@ class InstructorSeeder extends Seeder
      */
     public function run(): void
     {
-        Instructor::factory(2)->create();
+        //Instructor seeder
+        Instructor::factory()->create([
+            'employee_id' => 'EMP-100-1',
+            'github_username' => 'octocat',
+            'user_id' => 2,
+            'campus_id' => 1,            
+        ]);
+
+        Instructor::factory()->create([
+            'employee_id' => 'EMP-101-1',
+            'github_username' => 'random',
+            'user_id' => 3,
+            'campus_id' => 2,            
+        ]);
     }
 }

@@ -81,17 +81,16 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#Projects" class="has-arrow"><i class="fa fa-cube"></i><span>Projects & Tasks</span></a>
+                            <a href="#Projects" class="has-arrow"><i class="fa fa-cube"></i><span>Projects</span></a>
                             <ul>
                                 <li class="active"><a href="#" class="has-arrow">Entry List</a>
                                     <ul>
-                                        <li><a href="{{ route('instructor-sorted-all') }}">Projects</a></li>
-                                        <li><a href="#">Tasks</a></li>                                
+                                        <li><a href="{{ route('instructor-sorted-all') }}">Projects</a></li>                               
                                     </ul>
                                 </li> 
                             </ul>
                         </li>
-                        <li><a href="{{ route('instructor-sorted-students') }}"><i class="fa fa-flag"></i><span>Students</span></a></li>
+                        <li><a href="{{ route('instructor-sorted-students') }}"><i class="fa fa-users"></i><span>Students</span></a></li>
                         <li><a href="#Tasks" class="has-arrow"><i class="fa fa-gears"></i><span>Activity</span></a>
                             <ul>
                                 <li><a href="#">Commits</a></li>

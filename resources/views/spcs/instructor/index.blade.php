@@ -71,7 +71,7 @@
             <tbody>
                 @foreach ($projectDetails as $details)
                 <tr>
-                    <td class="scope"><a href="#">{{ $details->name }}</a></td>
+                    <td class="scope"><a href="{{ route('instructor-show-project', ['id' => $details->id]) }}">{{ $details->name }}</a></td>
                     <td>{{ $details->status == 'C' ? 'Completed' : 'Opened' }}</td>
                 </tr>
                 @endforeach

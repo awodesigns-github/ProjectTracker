@@ -2,28 +2,27 @@
 
 namespace Database\Seeders;
 
+use App\Models\Instructor;
+use App\Models\Module;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Team;
-use App\Models\Module;
 use Faker\Factory as Faker;
 
-class ModuleTeamSeeder extends Seeder
+class InstructorModuleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        // ModuleTeam::factory()->count(25)->create();
         $faker  = Faker::create();
 
-        $teams = Team::all();
+        $instructors = Instructor::all();
         $modules = Module::all();
 
-        foreach ($teams as $team) {
+        foreach ($instructors as $instructor) {
             $moduleCount = 5;
-            $team->module()->attach(
+            $instructor->module()->attach(
                 $modules->random($moduleCount)->pluck('id')
             );
         }

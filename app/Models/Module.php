@@ -17,9 +17,9 @@ class Module extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function instructor(): HasOne
+    public function instructor(): BelongsTo
     {
-        return $this->hasOne(Instructor::class);
+        return $this->belongsTo(Instructor::class);
     }
 
     public function team(): BelongsToMany
