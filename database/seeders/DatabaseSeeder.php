@@ -119,5 +119,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserRoleSeeder::class);
         $this->call(InstructorStudentSeeder::class);
         $this->call(InstructorModuleSeeder::class);
+        $this->call(TaskStudentSeeder::class);
     }
 }

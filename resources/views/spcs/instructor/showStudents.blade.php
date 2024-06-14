@@ -74,7 +74,7 @@
                         <tbody id="tbody">
                             @foreach ($studentDetails as $details)
                                 <tr>
-                                    <td>{{ $details->user->name }}</td>
+                                    <td> <a href="{{ route('instructor-show-student', ['id' => $details->id]) }}">{{ $details->user->name }} <i class="fa fa-level-up"></i></a></td>
                                     <td>{{ $details->cohort->name }}-{{ $details->registration_number }}</td>
                                     <td>{{ $details->github_username }}</td>
                                     <td>{{ $details->cohort->name }}</td>

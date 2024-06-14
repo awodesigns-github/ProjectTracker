@@ -10,22 +10,36 @@
                 <li class="breadcrumb-item">{{ $projectDetails->name }}</li>
             </ul>
         </div>
+        
+        @if ($userRole == 'instructor')
         <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="d-flex flex-row-reverse">
                 <div class="page_action">
                     <a href="{{ route('instructor-add-task', ['id' => $projectDetails->id]) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add a task</a>
+                    <a href="#" class="btn btn-warning"><i class="fa fa-edit"></i> Edit Project</a>
                 </div>
                 <div class="p-2 d-flex">
                     
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
 
 <div class="card" style="border: 1px solid rgb(203, 202, 202)">
         <div class="mail-inbox">
             <div class="mail-left collapse" id="email-nav">
+                <div class="mail-compose m-b-20">
+                    {{-- <form action="{{ route('instructor-delete-project', ['id' => $projectDetails->id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <btn class="btn btn-danger btn-block js-sweetalert" id="project_delete" data-type="cancel" data-id="{{ $projectDetails->id }}"><i class="fa fa-warning"></i> Delete Project</btn>
+                    </form> --}}
+
+                    <btn class="btn btn-danger btn-block" id="project_delete" data-type="cancel" data-id="{{ $projectDetails->id }}"><i class="fa fa-warning"></i> Delete Project</btn>
+                </div>
+                <hr>
                 <div class="mail-side" id="preCheck">
                     <ul  class="nav nav-tabs-new list-unstyled">
                         <li class="nav-item"><a class="nav-link show active" data-toggle="tab" href="#details"><b>Project Information</b></a></li>
@@ -97,7 +111,7 @@
                                             <tbody>
                                                 @foreach ($projectStudents as $student)
                                                 <tr>
-                                                    <td class="scope">{{ $student->user->name }}</td>
+                                                    <td class="scope"> <a href="{{ route('instructor-show-student', ['id' => $student->id]) }}">{{ $student->user->name }} <i class="fa fa-level-up"></i></a></td>
                                                     <td>{{ $student->registration_number }}</td>
                                                     <td>{{ $student->user->email }}</td>
                                                     <td>{{ $student->user->primary_phone_number }}</td>
@@ -160,4 +174,43 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('contentScripts')
+    <script>
+        $("#project_delete").on('click', function () {
+            var id = $(this).data("id");
+            console.log(id);
+            swal({
+                title: "Are you sure?",
+                text: "You are about to delete this project",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#dc3545",
+                confirmButtonText: "Yes, Continue with deletion!",
+                cancelButtonText: "No, Cancel!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    console.log(id);
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('instructor-delete-project', ['id' => ""]) }}" + '/' + id,
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function (response) {
+                            swal("Deleted!", "The project was deleted", "success");
+                            setTimeout(() => {
+                                window.location.href = "{{ route('instructor-dashboard') }}";   
+                            }, 2000);
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Deletion failed", "error");
+                }
+            });
+        });
+    </script>
 @endsection

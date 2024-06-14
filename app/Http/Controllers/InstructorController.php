@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\ProjectInstructor;
 use App\Models\Student;
 use App\Models\Task;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -131,12 +132,14 @@ class InstructorController extends Controller
             'task_name' =>'required',
             'task_description' =>'required|max:255',
             'project_id' =>'required',
-            'task_file' =>'required|file|mimes:pdf,docx|max:2048'
+            'task_file' =>'nullable|file|mimes:pdf,docx|max:2048'
         ]);
 
         if ($request->hasFile('task_file')) {
             $taskFile = $request->file('task_file')->store('public');
             $taskUrl = asset('storage/'.basename($taskFile));
+        } else {
+            $taskUrl = null;
         }
 
         try {
@@ -172,12 +175,14 @@ class InstructorController extends Controller
             'description' => 'required|max:255',
             'status' => 'required',
             'module_id' => 'required',
-            'task_file' => 'required|file|mimes:pdf,docx|max:2048'
+            'task_file' => 'nullable|file|mimes:pdf,docx|max:2048'
         ]);
 
         if ($request->hasFile('task_file')) {
             $taskFile = $request->file('task_file')->store('public');
             $taskUrl = asset('storage/'.basename($taskFile));
+        } else {
+            $taskUrl = null;
         }
 
         try {
@@ -218,13 +223,21 @@ class InstructorController extends Controller
     public function showProjectDetails(Project $id)
     {
         $projectDetails = Project::query()->where('id', $id->id)->with(['task', 'module'])->first();
-        $projectTasks = $projectDetails->task;
+        $projectTask = $projectDetails->task;
         $projectStudents = $projectDetails->module->student;
         return view('spcs.instructor.showProject',[
             'userRole' => $this->userRole,
             'projectDetails' => $projectDetails,
-            'projectTasks' => $projectTasks,
+            'projectTasks' => $projectTask,
             'projectStudents' => $projectStudents
+        ]);
+    }
+
+    public function showStudentDetails(Student $id)
+    {
+        return view('spcs.instructor.showStudentDetails', [
+            'userRole' => $this->userRole,
+            'studentDetails' => $id
         ]);
     }
 
@@ -258,5 +271,29 @@ class InstructorController extends Controller
     public function destroy(Instructor $instructor)
     {
         //
+    }
+
+    /**
+     * Delete a project from the database
+     */
+    public function destroyProject(Project $id)
+    {
+        // dd($id);
+        $project = Project::findOrFail($id->id);
+        $tempName = $id->name;
+
+        DB::beginTransaction();
+
+        try {
+            $project->delete();
+            Log::info('Instructor with id ' . Auth::user()->id . ' and name ' . Auth::user()->name . ' deleted project ' . $tempName);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            return redirect()->back()->with('deletionError', 'Deletion Error... Please check logs');
+        }
+
+        return redirect()->route('instructor-dashboard')->with('projectDeletion', 'Project deleted successfully!');
     }
 }

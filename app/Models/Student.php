@@ -75,4 +75,9 @@ class Student extends Model implements Authenticatable
     {
         return $this->belongsTo(User::class);
     }
+
+    public function task(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'task_student')->withPivot('status')->withTimestamps();
+    }
 }

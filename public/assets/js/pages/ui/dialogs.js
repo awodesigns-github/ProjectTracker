@@ -64,19 +64,19 @@ function showConfirmMessage() {
 function showCancelMessage() {
     swal({
         title: "Are you sure?",
-        text: "This will disapprove the check request!",
+        text: "You are about to delete this project",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#dc3545",
-        confirmButtonText: "Yes, disapprove!",
-        cancelButtonText: "No, cancel!",
+        confirmButtonText: "Yes, Continue with deletion!",
+        cancelButtonText: "No, Cancel!",
         closeOnConfirm: false,
         closeOnCancel: false
     }, function (isConfirm) {
         if (isConfirm) {
-            swal("Disapproved!", "The check sequence has been disapproved.", "success");
+            swal("Deleted!", "The project was deleted", "success");
         } else {
-            swal("Cancelled", "Disapproval sequence cancelled", "error");
+            swal("Cancelled", "Deletion failed", "error");
         }
     });
 }

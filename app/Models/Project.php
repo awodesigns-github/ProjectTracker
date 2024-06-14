@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -41,6 +43,17 @@ class Project extends Model
     public function task(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($project) {
+            $project->instructors()->detach();
+            $project->team()->detach();
+            $project->task()->delete();
+        });
     }
 
     // public function scopeFilter($query, Request $request)

@@ -3,11 +3,12 @@
 <div class="block-header">
     <div class="row align-items-center">
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <h2>Instructor Profile</h2>
+            <h2>Student Profile</h2>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i></a></li> 
-                <li class="breadcrumb-item">Instructor</li>                           
-                <li class="breadcrumb-item">Instructor details</li>
+                <li class="breadcrumb-item">Students</li>                           
+                <li class="breadcrumb-item">{{ $studentDetails->user->name }}</li>
+                <li class="breadcrumb-item">Profile</li>
             </ul>
         </div>
     </div>
@@ -27,13 +28,13 @@
                 <div class="mail-side" id="preCheck">
                     <ul  class="nav nav-tabs-new list-unstyled">
                         <li class="nav-item"><a class="nav-link show active" data-toggle="tab" href="#details"><b>General Information</b></a></li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#projects"><b>Projects</b></a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#recent_activity"><b>Recent Activity</b></a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="mail-right">
-                @include('components.subLeftHandBar.subHeader')
+                {{-- @include('components.subLeftHandBar.subHeader') --}}
                     <div class="body">
                         <div class="tab-content">
                             <div class="tab-pane active" id="details">
@@ -44,66 +45,44 @@
                                     <div class="col-lg-6">
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Name : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->name }}</p>
+                                            <p class="pl-2">{{ $studentDetails->user->name }}</p>
                                         </div>
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Email : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->email }}</p>
+                                            <p class="pl-2">{{ $studentDetails->user->email }}</p>
                                         </div>
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Github : </b></label>
-                                            <p class="pl-2"><a href="https://www.github.com/{{ $instructor->github_username }}" target="_blank">github.com/{{ $instructor->github_username }}</a></p>
+                                            <p class="pl-2"><a href="https://www.github.com/{{ $studentDetails->github_username }}" target="_blank">github.com/{{ $studentDetails->github_username }}</a></p>
+                                        </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Contacts Info. : </b></label>
+                                            <p class="pl-2">{{ $studentDetails->user->primary_phone_number }}</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Phone Number : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->primary_phone_number }}</p>
+                                            <label for="Name"><b>Cohort : </b></label>
+                                            <p class="pl-2">{{ $studentDetails->cohort->name }}</p>
                                         </div>
                                         <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Campus : </b></label>
-                                            <p class="pl-2">{{ $instructor->campus->name }}</p>
+                                            <label for="Name"><b>Team : </b></label>
+                                            <p class="pl-2">{{ $studentDetails->team->name }}</p>
                                         </div>
                                         <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Registered On : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->created_at }}</p>
+                                            <label for="Name"><b>Registration Number : </b></label>
+                                            <p class="pl-2">{{ $studentDetails->registration_number }}</p>
+                                        </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Emergency Contact Info. : </b></label>
+                                            <p class="pl-2">{{ $studentDetails->user->secondary_phone_number }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Nationality : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->nationality }}</p>
-                                        </div>
-                                        <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Marital status : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->marital_status }}</p>
-                                        </div>
-                                        <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Emergency Contact : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->emergency_contact_name }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Phone Number : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->primary_phone_number }}</p>
-                                        </div>
-                                        <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Auxiliary phone number : </b></label>
-                                            <p class="pl-2">{{ $instructor->user->secondary_phone_number }}</p>
-                                        </div>
-                                        <div class="pb-2 d-flex">
-                                            <label for="Name"><b>Emergency Contact Phone Number: </b></label>
-                                            <p class="pl-2">{{ $instructor->user->emergency_contact_phone_number }}</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             
-                            <div class="tab-pane" id="projects">
+                            <div class="tab-pane" id="recent_activity">
                                 <h4>Projects</h4>
                                 <hr>
                                 <div class="row">
@@ -119,15 +98,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($instructorProjects as $insProjects)
                                                 <tr>
-                                                    <td class="scope">{{ $insProjects->name }}</td>
+                                                    <td class="scope">#</td>
                                                     <td>N/A</td>
                                                     <td>N/A</td>
                                                     <td>N/A</td>
                                                     <td>N/A</td>
                                                 </tr>
-                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
