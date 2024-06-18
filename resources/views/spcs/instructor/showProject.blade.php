@@ -16,7 +16,7 @@
             <div class="d-flex flex-row-reverse">
                 <div class="page_action">
                     <a href="{{ route('instructor-add-task', ['id' => $projectDetails->id]) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add a task</a>
-                    <a href="#" class="btn btn-warning"><i class="fa fa-edit"></i> Edit Project</a>
+                    <a href="{{ route('instructor-edit-project', ['id' => $projectDetails->id]) }}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit Project</a>
                 </div>
                 <div class="p-2 d-flex">
                     
@@ -128,44 +128,38 @@
                             <div class="tab-pane" id="tasks">
                                 <h4>Tasks</h4>
                                 <hr>
-                                <div class="row">
-                                    <div class="body table-responsive">
-                                        <table class="table table-bordered table-striped table-hover dataTable js-exportable table table-hover mb-0 c_list">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tasks</th>
-                                                    <th>Description</th>
-                                                    <th>Status</th>
-                                                    <th>Has attachment</th>
-                                                    <th>Created At</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($projectTasks as $task)
-                                                <tr>
-                                                    <td class="scope">{{ $task->task_name }}</td>
-                                                    <td>{{ $task->task_description }}</td>
-                                                    <td>
-                                                        @if ($task->status == 'C')
-                                                            Completed    
-                                                        @elseif ($task->status == 'P')
-                                                            Pending
-                                                        @else
-                                                            In Progress
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $task->task_url == NULL ? 'No' : 'Yes | '}}
-                                                        @if ($task->task_url != NULL)
-                                                        <a href="{{ $task->task_url }}" target="_blank"> <i class="fa fa-download"></i> Download</a> 
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $task->created_at }}</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                <form action="" method="post">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="row">
+                                        <div class="body table-responsive">
+                                            <table class="table table-bordered table-striped table-hover dataTable js-exportable table table-hover mb-0 c_list">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tasks</th>
+                                                        <th>Description</th>
+                                                        <th>Has attachment</th>
+                                                        <th>Created At</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($projectTasks as $task)
+                                                    <tr>
+                                                        <td class="scope"><a href="{{ route('instructor-edit-task', ['id' => $task->id, 'projectId' => $task->project_id]) }}">{{ $task->task_name }} <i class="fa fa-level-up"></i></a></td>
+                                                        <td>{{ $task->task_description }}</td>
+                                                        <td>{{ $task->task_url == NULL ? 'No' : 'Yes | '}}
+                                                            @if ($task->task_url != NULL)
+                                                            <a href="{{ $task->task_url }}" target="_blank"> <i class="fa fa-download"></i> Download</a> 
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $task->created_at }}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                                 <hr>
                             </div>
                         </div>

@@ -20,7 +20,11 @@
                 <div class="mail-compose m-b-20">
                     <div class="page_action">
                         <div class="d-flex flex-row-reverse">
+                            @if ($studentDetails->user->sex == 'M')
                             <img src="{{ asset('assets/logo/avt.jpeg') }}" class="user-photo" style="width:100%; height:100%;" alt="User">
+                            @else
+                            <img src="{{ asset('assets/logo/avt2.jpg') }}" class="user-photo" style="width:100%; height:100%;" alt="User">
+                            @endif
                         </div>
                     </div>
                     <hr class="my-2">

@@ -37,6 +37,7 @@ class User extends Authenticatable
         'social_security_number',
         'passport_number',
         'driver_license',
+        'sex'
     ];
 
     /**

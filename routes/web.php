@@ -36,8 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/instructors/show/project/{id?}/addTask', [InstructorController::class, 'createTask'])->name('instructor-add-task');
     Route::post('/instructors/create/storeTask', [InstructorController::class, 'storeTask'])->name('instructor-store-task');
     Route::get('/instructors/student/{id?}/profile', [InstructorController::class, 'showStudentDetails'])->name('instructor-show-student');
-    // Route::delete('instructors/project/{id?}/delete', [InstructorController::class, 'destroyProject'])->name('instructor-delete-project');
     Route::post('instructors/project/delete/{id?}', [InstructorController::class, 'destroyProject'])->name('instructor-delete-project');
+    Route::get('/instructors/project/edit/{id?}', [InstructorController::class, 'edit'])->name('instructor-edit-project');
+    Route::patch('/instructors/project/edit/store/{id?}', [InstructorController::class, 'update'])->name('instructor-store-edit-project');
+    Route::get('/instructors/project/task/edit/{id?}', [InstructorController::class, 'editTask'])->name('instructor-edit-task');
+    Route::patch('/instructors/project/task/edit/store/{id?}', [InstructorController::class, 'updateTask'])->name('instructor-store-edit-task');
 
     // Students
     Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');

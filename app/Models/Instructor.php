@@ -65,7 +65,7 @@ class Instructor extends Model
         return self::query()->where('user_id', Auth::user()->id)->with('project')->first()->project->count();   
     }
 
-    public static function instructorTasksCountPerProject()
+    public static function totalTasksCount()
     {
         $projects = self::query()->where('user_id', Auth::user()->id)->with('project')->first()->project;
         

@@ -84,7 +84,7 @@
                         <tbody id="tbody">
                             @foreach ($projectDetails as $details)
                                 <tr>
-                                    <td><a href="{{ route('instructor-show-project', ['id' => $details->id]) }}">{{ $details->name }}</a></td>
+                                    <td><a href="{{ route('instructor-show-project', ['id' => $details->id]) }}">{{ $details->name }} <i class="fa fa-level-up"></i></a></td>
                                     <td>{{ $details->description }}</td>
                                     <td>{{ $details->status == 'C' ? 'Closed' : 'Open' }}</td>
                                 </tr>

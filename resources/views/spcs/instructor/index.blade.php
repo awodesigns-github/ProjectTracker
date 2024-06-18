@@ -55,7 +55,8 @@
     </div>
 </div>
 
-{{-- Section 2 --}}
+
+{{-- Section Three --}}
 <div class="card" style="border: none;">
     <div class="header">
         <h2 class="text-muted"><b>Project Information</b></h2>                            
@@ -71,7 +72,7 @@
             <tbody>
                 @foreach ($projectDetails as $details)
                 <tr>
-                    <td class="scope"><a href="{{ route('instructor-show-project', ['id' => $details->id]) }}">{{ $details->name }}</a></td>
+                    <td class="scope"><a href="{{ route('instructor-show-project', ['id' => $details->id]) }}">{{ $details->name }} <i class="fa fa-level-up"></i></a></td>
                     <td>{{ $details->status == 'C' ? 'Completed' : 'Opened' }}</td>
                 </tr>
                 @endforeach
@@ -81,27 +82,57 @@
     </div>
 </div>
 
+
+{{-- Section Two --}}
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-6">
         <div class="card" style="border: none;">
             <div class="header">    
-                <h2 class="text-muted"><b>Progress</b></h2>
+                <h2 class="text-muted"><b>Overall Project Statistics</b></h2>
             </div>
             <div class="body">
                 <div id="progress-chart" style="height: 16rem"></div>
             </div>
         </div> 
     </div>
-</div> 
+    <div class="col-lg-6">
+        <div class="card" style="border: none;">
+            <div class="header">    
+                <h2 class="text-muted"><b>Task Count</b><small>(for open projects)</small></h2>
+            </div>
+            <div class="body">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                          <th>Project</th>
+                          <th>Task Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($projectStatistics as $stats)
+                            <tr>
+                                <td class="scope">{{ $stats->name }}</td>
+                                <td>{{ $stats->task_count }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+    </div>
+</div>
 
+
+
+{{-- Section Four --}}
 <div class="row">
     <div class="col-lg-12">
         <div class="card" style="border: none;">
             <div class="header">
-                <h2 class="text-muted"><b>Contributions</b></h2>
+                <h2 class="text-muted"><b>Task Progress</b><small>(for the first 10 projects)</small></h2>
             </div>
             <div class="body">
-                <div id="team-contributions" style="height: 16rem"></div>
+                <div id="Google-Analytics-Dashboard" style="height: 16rem" class="c3"></div>
             </div>
         </div>
     </div>
@@ -118,13 +149,15 @@
             data: {
                 columns: [
                     // each columns data
-                    
+                    ['data1', 55],
+                    ['data2', 30],
+                    ['data3', 20],
                 ],
                 type: 'donut', // default type of chart
                 colors: {
                     'data1': '#962FC5',
-                    'data2': '#E11E1E',
-                    'data3': '#1d2124'
+                    'data2': '#3b0273',
+                    'data3': '#3d4e5f'
                 },
                 names: {
                     // name of each series
@@ -148,6 +181,51 @@
     document.querySelectorAll('tbody tr').forEach(row => {
         row.addEventListener('click', function () {
             console.log("Clicked");
+        });
+    });
+
+    $(document).ready(function(){
+        var chart = c3.generate({
+            bindto: '#Google-Analytics-Dashboard', // id of chart wrapper
+            data: {
+                columns: [
+                    // each columns data
+                    ['data1', 11, 8, 22, 18, 19, 6, 17, 11, 17, 32, 9, 12],
+                    ['data2', 7, 7, 5, 7, 9, 12, 8, 22, 18, 19, 6, 17],
+                    ['data3', 1, 13, 15, 8, 9, 12, 8, 18, 11, 17, 6, 12],
+                ],
+                type: 'bar', // default type of chart
+                colors: {
+                    'data1': '#962FC5',
+                    'data2': '#3b0273',
+                    'data3': '#3d4e5f'
+                },
+                names: {
+                    // name of each serie
+                    'data1': 'Completed tasks',
+                    'data2': 'In progress tasks',
+                    'data3': 'Pending tasks',
+                }
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    // name of each category
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+                },
+            },
+            bar: {
+                width: 11
+            },
+            legend: {
+                show: true, //hide legend
+            },
+            padding: {
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0
+            },
         });
     });
 </script>    

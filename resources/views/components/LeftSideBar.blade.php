@@ -2,7 +2,11 @@
     <button type="button" class="btn-toggle-offcanvas"><i class="fa fa-arrow-left"></i></button>
     <div class="sidebar-scroll">
         <div class="user-account">
+            @if (Auth::user()->sex == 'M')
             <img src="{{ asset('assets/logo/avt.jpeg') }}" class="rounded-circle user-photo" alt="User">
+            @else      
+            <img src="{{ asset('assets/logo/avt_female.jpg') }}" class="rounded-circle user-photo" alt="User">
+            @endif
             <div class="dropdown">
                 <span>Welcome {{ $userRole }}</span>
                 <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ Auth::user()->name }}</strong></a>
@@ -59,14 +63,12 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="#Logs"><i class="fa fa-clipboard"></i><span>Logs</span></a>
                         </li>
                         <li><a href="#Tasks" class="has-arrow"><i class="fa fa-gears"></i><span>Roles & Permissions</span></a>
                             <ul>
                                 <li><a href="#">All</a></li>
                                 <li><a href="#">Instructors</a></li>
                                 <li><a href="#">Students</a></li>
-                                <li><a href="#">Team leaders</a></li>
                             </ul>
                         </li>
                     </ul>

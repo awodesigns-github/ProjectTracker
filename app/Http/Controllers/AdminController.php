@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cohort;
+use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\Project;
 use App\Models\Student;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -17,21 +19,23 @@ class AdminController extends Controller
      */
     public function index()
     {
-        // Total instructors count
         $instructorsCount = Instructor::query()->count();
 
-        // Total student count
         $studentCount = Student::query()->count();
 
-        // Total teams count
         $teamsCount = Team::query()->count();
+        
+        $projects = Project::withCount('task')->with('instructors')->get();
 
-        $projects = Project::query()->with('task')->orderBy('name')->get();
+        $deletedProjects = Project::onlyTrashed()->get();
+
+        $usersCount = User::query()->count();
+
+        $courseCount = Course::query()->count();
         
         // Fetch instructors with their respective cohorts
-        $instructorCohortCount = Instructor::instructorsPerCohort();
+        // $instructorCohortCount = Instructor::instructorsPerCohort();
 
-        // Fetch all cohorts
         $cohortList = Cohort::query()->get();
 
         return view('spcs.admin.index', [
@@ -40,7 +44,11 @@ class AdminController extends Controller
             'studentsCount' => $studentCount,
             'teamsCount' => $teamsCount,
             'projects' => $projects,
-            'cohortList' => $cohortList
+            'cohortList' => $cohortList,
+            'deletedProjects' => $deletedProjects,
+            'deletedProjectsCount' => $deletedProjects->count(),
+            'usersCount' => $usersCount,
+            'courseCount' => $courseCount,
         ]);
     }
 

@@ -34,15 +34,26 @@ class InstructorController extends Controller
         // project details
         $projectDetails = Instructor::instructorProjectObject()->first()->project;
 
+        // Project summary
+        $projectStatistics = Instructor::instructorProjectObject()->first()->project()
+                        ->where('status', 'O')
+                        ->withCount('task')
+                        ->orderBy('task_count', 'desc')
+                        ->take(5)
+                        ->get();
+
+        // dd($projectStatistics);
+
         // Tasks count per project
-        $tasksCount = Instructor::instructorTasksCountPerProject();
+        $tasksCount = Instructor::totalTasksCount();
 
         return view('spcs.instructor.index', [
             'userRole' => $this->userRole,
             'instructorDetails' => $instructorDetails,
             'projectCount' => $projectCount,
             'projectDetails' => $projectDetails,
-            'taskCount' => $tasksCount
+            'taskCount' => $tasksCount,
+            'projectStatistics' => $projectStatistics
         ]);
     }
 
@@ -206,6 +217,9 @@ class InstructorController extends Controller
                 'project_id' => $project->id,
                 'instructor_id' => $instructorId->id,
             ]);
+
+            Log::info("Project: . $request->name . created successfully by " . Auth::user()->name);
+
             DB::commit();
 
             return redirect()->route('instructor-dashboard')->with('creationSuccess', 'Project created successfully');
@@ -250,19 +264,122 @@ class InstructorController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing Project and its associated tasks.
      */
-    public function edit(Instructor $instructor)
+    public function edit(Project $id)
     {
-        //
+        // dd($id->task);
+        $modules = Module::query()->get();
+
+        return view('spcs.instructor.editProject', [
+            'userRole' => $this->userRole,
+            'projectDetails' => $id,
+            'modules' => $modules,
+            'projectTasks' => $id->task
+        ]);
+    }
+
+    /**
+     * Show the form for editing a task
+     */
+    public function editTask(Task $id)
+    {
+        // dd($id);
+        $projectDetails = Project::query()->where('id', $id->project_id)->first();
+        return view('spcs.instructor.editTask', [
+            'userRole' => $this->userRole,
+            'task' => $id,
+            'projectDetails' => $projectDetails
+        ]);
+    }
+
+
+    /**
+     * Update the edited task
+     */
+    public function updateTask(Request $request, Task $id)
+    {
+        // dd($id);
+        $request->validate([
+            'task_name' => 'required|max:255',
+            'task_description' => 'required|max:255',
+            'task_file' => 'nullable|file|mimes:pdf,docx|max:2048',
+        ]);
+
+        if ($request->hasFile('task_file')) {
+            $taskFile = $request->file('task_file')->store('public');
+            $taskUrl = asset('storage/'.basename($taskFile));
+        } else {
+            $taskUrl = null;
+        } 
+
+        try {
+            DB::beginTransaction();
+
+            $id->update([
+                'task_name' => $request->task_name,
+                'task_description' => $request->task_description,
+                'project_id' => $id->project_id,
+                'task_url' => $taskUrl
+            ]);
+
+            Log::info("Task: . $id->task_name . updated successfully by " . Auth::user()->name);
+
+            DB::commit();
+
+            $projectDetails = Project::query()->where('id', $id->project_id)->first();
+
+            return redirect()->route('instructor-show-project', ['id' => $projectDetails]);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            return redirect()->back();
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Instructor $instructor)
+    public function update(Request $request, Project $id)
     {
-        //
+        $instructorId = Instructor::query()->where('user_id', Auth::user()->id)->first();
+
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required|max:255',
+            'status' => 'required',
+            'module_id' => 'required',
+        ]);       
+
+        try {
+            DB::beginTransaction();
+
+            $id->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'status' => $request->status,
+                'module_id' => $request->module_id,
+            ]);
+
+            $projectInstructor = ProjectInstructor::query()->where('project_id', $id->id)->first();
+
+            $projectInstructor::updated([
+                'project_id' => $id->id,
+                'instructor_id' => $instructorId->id,
+            ]);
+
+            Log::info("Project: . $id->name . updated successfully by " . Auth::user()->name);
+
+            DB::commit();
+
+            return redirect()->route('instructor-dashboard');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            return redirect()->back();
+        }
     }
 
     /**

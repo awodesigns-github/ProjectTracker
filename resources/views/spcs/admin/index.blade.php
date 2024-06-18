@@ -42,7 +42,7 @@
     <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="card top_widget" style="border: none; cursor:pointer;" id="card_tasks">
             <div class="body text-white" style="background: #962FC5;">
-                <div class="icon"><i class="fa fa-users"></i> </div>
+                <div class="icon"><i class="fa fa-user"></i> </div>
                 <div class="content">
                     <div class="text mb-2 text-uppercase">Students</div>
                     <h4 class="number mb-0">{{ ($studentsCount != 0) ? $studentsCount : 'N/A' }}</h4>
@@ -55,13 +55,38 @@
             <div class="body" style="background: #3b0273;">
                 <div class="icon"><i class="fa fa-users"></i> </div>
                 <div class="content text-white">
-                    <div class="text mb-2 text-uppercase">Teams</div>
-                    <h4 class="number mb-0">{{ ($teamsCount != 0) ? $teamsCount : 'N/A'}}</h4>
+                    <div class="text mb-2 text-uppercase">Total Users <small><strong>(including admins)</strong></small></div>
+                    <h4 class="number mb-0">{{ $usersCount }}</h4>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="row clearfix row-deck">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="card top_widget" style="border: none; cursor:pointer;" id="card_tasks">
+            <div class="body text-white" style="background: #962FC5;">
+                <div class="icon"><i class="fa fa-trash"></i> </div>
+                <div class="content">
+                    <div class="text mb-2 text-uppercase">Deleted Projects</div>
+                    <h4 class="number mb-0">{{ $deletedProjectsCount }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="card top_widget" style="border: none; cursor:pointer;" id="card_team_members">
+            <div class="body" style="background: #962FC5;">
+                <div class="icon"><i class="fa fa-university"></i> </div>
+                <div class="content text-white">
+                    <div class="text mb-2 text-uppercase">Courses</div>
+                    <h4 class="number mb-0">{{ $courseCount }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
     
 
 {{-- section two table --}}
@@ -74,20 +99,16 @@
             <thead>
                 <tr>
                     <th>Projects</th>
-                    <th>Task Count</th>
-                    <th>Success Rate</th>
+                    <th>Associated Tasks</th>
                     <th>Instructor</th>
-                    <th>TA</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($projects as $project)
                 <tr>
                     <td class="scope">{{ $project->name }}</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <td>{{ $project->task_count }}</td>
+                    <td>{{ $project->instructors->first()->user->name }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -118,6 +139,33 @@
         </div>
     </div>
 </div>  
+
+{{-- section four table --}}
+<div class="card" style="border: none;">
+    <div class="header">
+        <h2 class="text-muted"><b>Deleted Projects</b></h2>                            
+    </div>
+    <div class="body table-responsive">
+        <table class="table table-bordered table-striped table-hover dataTable js-exportable table table-hover mb-0 c_list">
+            <thead>
+                <tr>
+                    <th>Projects</th>
+                    <th>Deleted At</th>
+                    <th>Deleted By</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($deletedProjects as $item)
+                <tr>
+                    <td class="scope">{{ $item->name }}</td>
+                    <td>{{ $item->deleted_at }}</td>
+                    <td>N/A</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
     
 @endif
 
