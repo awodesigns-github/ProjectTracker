@@ -48,12 +48,12 @@ class AuthenticatedSessionController extends Controller
 
             case 'student':
                 Log::info("User with Id: " . Auth::user()->id . " and name: " . Auth::user()->name . " logged in as student");
-                return redirect()->route('spcs-dashboard');
+                return redirect()->route('student-dashboard');
                 break;
 
             default:
                 Log::info("User with Id: " . Auth::user()->id . " and name: " . Auth::user()->name . " logged in as student");
-                return redirect()->route('spcs-dashboard');
+                return redirect()->route('student-dashboard');
                 break;
         }
     }

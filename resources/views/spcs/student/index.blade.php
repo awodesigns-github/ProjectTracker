@@ -31,7 +31,7 @@
 
 {{-- section one cards --}}
 <div class="row clearfix row-deck">
-    <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="card top_widget" style="border: none; cursor:pointer;" id="card_projects">
             <div class="body" style="background: #3b0273;">
                 <div class="icon"><i class="fa fa-cube"></i> </div>
@@ -42,12 +42,23 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="card top_widget" style="border: none; cursor:pointer;" id="card_tasks">
             <div class="body text-white" style="background: #962FC5;">
                 <div class="icon"><i class="fa fa-tasks"></i> </div>
                 <div class="content">
-                    <div class="text mb-2 text-uppercase">Tasks</div>
+                    <div class="text mb-2 text-uppercase">Completed tasks</div>
+                    <h4 class="number mb-0">N/A</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="card top_widget" style="border: none; cursor:pointer;" id="card_tasks">
+            <div class="body text-white" style="background: #3b0273;">
+                <div class="icon"><i class="fa fa-tasks"></i> </div>
+                <div class="content">
+                    <div class="text mb-2 text-uppercase">Pending tasks</div>
                     <h4 class="number mb-0">N/A</h4>
                 </div>
             </div>
@@ -70,12 +81,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($projectDetails as $details)
-                <tr>
-                    <td class="scope"><a href="{{ route('instructor-show-project', ['id' => $details->id]) }}">{{ $details->name }} <i class="fa fa-level-up"></i></a></td>
-                    <td>{{ $details->status == 'C' ? 'Completed' : 'Opened' }}</td>
-                </tr>
-                @endforeach
+            
             </tbody>
 
         </table>
@@ -96,36 +102,28 @@
         </div> 
     </div>
     <div class="col-lg-6">
-        <div class="card" style="border: none;">
-            <div class="header">    
-                <h2 class="text-muted"><b>Task Count</b><small>(for open projects)</small></h2>
-            </div>
+        <div class="card pricing2" style="border: none;">
             <div class="body">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                          <th>Project</th>
-                          <th>Task Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($projectStatistics as $stats)
-                            <tr>
-                                <td class="scope">{{ $stats->name }}</td>
-                                <td>{{ $stats->task_count }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <hr>
+                <div class="pricing-plan">
+                    <h2 class="pricing-header">Credits</h2>
+                    <ul class="pricing-features">
+                        <li>Total Credits</li>
+                        <li><small>for all modules</small></li>
+                    </ul>
+                    <span class="pricing-price">N/A</span>
+                    <a href="javascript:void(0);" class="btn btn-outline-primary">See Milestones</a>
+                </div>
+                <hr>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 
 
 
 {{-- Section Four --}}
-<div class="row">
+{{-- <div class="row">
     <div class="col-lg-12">
         <div class="card" style="border: none;">
             <div class="header">
@@ -136,7 +134,7 @@
             </div>
         </div>
     </div>
-</div> 
+</div>  --}}
 
 @endif
 

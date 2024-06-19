@@ -102,7 +102,7 @@
                         <li>
                             <a href="#Dashboard" class="has-arrow"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                             <ul>
-                                <li><a href="{{ route('spcs-dashboard') }}">Analytics</a></li>
+                                <li><a href="{{ route('student-dashboard') }}">Analytics</a></li>
                             </ul>
                         </li>
                         <li>

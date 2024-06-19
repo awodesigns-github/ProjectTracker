@@ -16,27 +16,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-                // find the team members and their counts
-        $teamId = Student::query()->where('user_id', Auth::user()->id)->with('team')->first()->team->id;
-        $teamMembersCount = Team::query()->where('id', $teamId)->first()->student->count();
-
-        // find the projects associated with this team and their counts
-        $teamProjectsCount = Team::query()->where('id', $teamId)->with('project')->first()->project->count();
-
-        // find the number of Tasks for each project
-        $teamProjects = Team::query()->where('id', $teamId)->with('project')->first()->project;
-
-        $teamTaskCount = 0;
-        foreach ($teamProjects as $projects) {
-                $teamTaskCount += $projects->task->count();
-        }
-
-        return view('spcs.index', [
-            'teamId' => $teamId,
-            'projects' => $teamProjects,
-            'projectCount' => $teamProjectsCount,
-            'taskCount' => $teamTaskCount,
-            'teamMembersCount' => $teamMembersCount,
+        return view('spcs.student.index', [
             'userRole' => $this->userRole
         ]);
     }

@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/instructors/project/task/edit/store/{id?}', [InstructorController::class, 'updateTask'])->name('instructor-store-edit-task');
 
     // Students
-    Route::get('/', [StudentController::class, 'index'])->name('spcs-dashboard');
+    Route::get('/', [StudentController::class, 'index'])->name('student-dashboard');
 });
 
 Route::get('/github/users/{username}', [GithubController::class, 'getAuthenticatedUserInfo'])->name('github-user-info');
