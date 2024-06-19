@@ -12,6 +12,7 @@ use App\Models\Task;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -38,11 +39,27 @@ class InstructorController extends Controller
         $projectStatistics = Instructor::instructorProjectObject()->first()->project()
                         ->where('status', 'O')
                         ->withCount('task')
+                        ->withCount([
+                            'task as completed_tasks' => function($query) {
+                                $query->where('task_status', 'C');
+                            },
+                            'task as inprogress_tasks' => function($query) {
+                                $query->where('task_status', 'I');
+                            },
+                            'task as pending_tasks' => function($query) {
+                                $query->where('task_status', 'P');
+                            },
+                        ])
                         ->orderBy('task_count', 'desc')
                         ->take(5)
                         ->get();
 
         // dd($projectStatistics);
+
+
+        $openProjectsCount = Instructor::instructorProjectObject()->first()->project()->where('status', 'O')->count();
+        $closedProjectsCount = Instructor::instructorProjectObject()->first()->project()->where('status', 'C')->count();
+
 
         // Tasks count per project
         $tasksCount = Instructor::totalTasksCount();
@@ -53,7 +70,9 @@ class InstructorController extends Controller
             'projectCount' => $projectCount,
             'projectDetails' => $projectDetails,
             'taskCount' => $tasksCount,
-            'projectStatistics' => $projectStatistics
+            'projectStatistics' => $projectStatistics,
+            'openProjects' => $openProjectsCount,
+            'closedProjects' => $closedProjectsCount
         ]);
     }
 
@@ -142,6 +161,7 @@ class InstructorController extends Controller
         $request->validate([
             'task_name' =>'required',
             'task_description' =>'required|max:255',
+            'task_status' => 'required',
             'project_id' =>'required',
             'task_file' =>'nullable|file|mimes:pdf,docx|max:2048'
         ]);
@@ -159,6 +179,7 @@ class InstructorController extends Controller
             $task = Task::create([
                 'task_name' => $request->task_name,
                 'task_description' => $request->task_description,
+                'task_status' => $request->task_status,
                 'project_id' => $request->project_id,
                 'task_url' => $taskUrl,
             ]);
@@ -175,7 +196,7 @@ class InstructorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created project and task in storage.
      */
     public function store(Request $request)
     {
@@ -209,6 +230,7 @@ class InstructorController extends Controller
             $task = Task::create([
                 'task_name' => $request->task_name,
                 'task_description' => $request->task_description,
+                'task_status' => $request->task_status,
                 'project_id' => $project->id,
                 'task_url' => $taskUrl,
             ]);
@@ -299,12 +321,14 @@ class InstructorController extends Controller
      */
     public function updateTask(Request $request, Task $id)
     {
-        // dd($id);
         $request->validate([
             'task_name' => 'required|max:255',
             'task_description' => 'required|max:255',
+            'task_status' => 'required',
             'task_file' => 'nullable|file|mimes:pdf,docx|max:2048',
         ]);
+
+        // dd($request);
 
         if ($request->hasFile('task_file')) {
             $taskFile = $request->file('task_file')->store('public');
@@ -316,16 +340,17 @@ class InstructorController extends Controller
         try {
             DB::beginTransaction();
 
-            $id->update([
+            Task::query()->where('id', $id->id)->update([
                 'task_name' => $request->task_name,
                 'task_description' => $request->task_description,
+                'task_status' => $request->task_status,
                 'project_id' => $id->project_id,
                 'task_url' => $taskUrl
             ]);
 
-            Log::info("Task: . $id->task_name . updated successfully by " . Auth::user()->name);
-
             DB::commit();
+
+            Log::info("Task: . $id->task_name . updated successfully by " . Auth::user()->name);
 
             $projectDetails = Project::query()->where('id', $id->project_id)->first();
 
@@ -355,16 +380,14 @@ class InstructorController extends Controller
         try {
             DB::beginTransaction();
 
-            $id->update([
+            Project::query()->where('id', $id->id)->update([
                 'name' => $request->name,
                 'description' => $request->description,
                 'status' => $request->status,
                 'module_id' => $request->module_id,
             ]);
 
-            $projectInstructor = ProjectInstructor::query()->where('project_id', $id->id)->first();
-
-            $projectInstructor::updated([
+            ProjectInstructor::query()->where('project_id', $id->id)->update([
                 'project_id' => $id->id,
                 'instructor_id' => $instructorId->id,
             ]);

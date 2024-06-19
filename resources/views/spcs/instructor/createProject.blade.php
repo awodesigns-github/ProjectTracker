@@ -95,6 +95,14 @@ instructor name
                 </div>
                 <textarea name="task_description" class="form-control @error('task_description') is-invalid @enderror" value="{{ old('task_description') }}" placeholder=" Task's description ... " style="border: 1px solid rgb(216, 213, 213);" aria-label="With textarea"></textarea>
             </div>
+            <div class="pb-3 c_multiselect">
+                <select name="task_status" class="form-control unique-dropdown multiselect multiselect-custom @error('task_status') is-invalid @enderror" style="border: 1px solid rgb(216, 213, 213);">
+                    <option disabled selected>Assign a status</option>
+                    <option value="C">Closed</option>
+                    <option value="I">In progress</option>
+                    <option value="P">Pending</option>
+                </select>
+            </div>
             <div class="row-clearfix">
                 <div class="col-lg-12">
                     <div class="card">

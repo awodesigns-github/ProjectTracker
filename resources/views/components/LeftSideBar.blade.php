@@ -83,27 +83,20 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#Projects" class="has-arrow"><i class="fa fa-cube"></i><span>Projects</span></a>
-                            <ul>
-                                <li class="active"><a href="#" class="has-arrow">Entry List</a>
-                                    <ul>
-                                        <li><a href="{{ route('instructor-sorted-all') }}">Projects</a></li>                               
-                                    </ul>
-                                </li> 
-                            </ul>
+                            <a href="{{ route('instructor-sorted-all') }}"><i class="fa fa-cube"></i><span>Projects</span></a>
                         </li>
                         <li><a href="{{ route('instructor-sorted-students') }}"><i class="fa fa-users"></i><span>Students</span></a></li>
-                        <li><a href="#Tasks" class="has-arrow"><i class="fa fa-gears"></i><span>Activity</span></a>
+                        {{-- <li><a href="#Tasks" class="has-arrow"><i class="fa fa-gears"></i><span>Activity</span></a>
                             <ul>
                                 <li><a href="#">Commits</a></li>
                                 <li><a href="#">Pushes</a></li>
                                 <li><a href="#">Issues</a></li>
                                 <li><a href="#">Pulls</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                     </ul>
 
-                    @else
+                    @elseif($userRole == 'student')
                     {{-- Student sidebar --}}
                     <ul id="main-menu" class="metismenu li_animation_delay">
                         <li>
@@ -124,69 +117,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="#Progress" class="has-arrow"><i class="fa fa-flag"></i><span>Progress Logs</span></a>
-                            <ul>
-                                <li><a href="#">yyyy-mm-dd</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#TeamResources" class="has-arrow"><i class="fa fa-gears"></i><span>Team Resources</span></a>
-                            <ul>
-                                <li><a href="#">All</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#TeamProfile"><i class="fa fa-gears"></i><span>Team Profile</span></a>
-                        </li>
                     </ul>
-
-                    {{-- Student sidebar --}}
-                    {{-- <ul id="main-menu" class="metismenu li_animation_delay">
-                        <li>
-                            <a href="#Dashboard" class="has-arrow"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
-                            <ul>
-                                <li><a href="{{ route('spcs-dashboard') }}">Analytics</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#Teams"><i class="fa fa-users"></i><span>Teams</span></a>
-                        </li>
-                    </ul> --}}
-
                     @endif
-                    {{-- <ul id="main-menu" class="metismenu li_animation_delay">
-                        <li>
-                            <a href="#Dashboard" class="has-arrow"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
-                            <ul>
-                                <li><a href="{{ route('spcs-dashboard') }}">Analytics</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#Projects" class="has-arrow"><i class="fa fa-cube"></i><span>Projects</span></a>
-                            <ul>
-                                <li class="active"><a href="#" class="has-arrow">Entry List</a>
-                                    <ul>
-                                        <li><a href="#">All</a></li>
-                                        <li><a href="#">Ongoing</a></li>
-                                        <li><a href="#">Closed</a></li>                                    
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="#Tasks" class="has-arrow"><i class="fa fa-tasks"></i><span>Tasks</span></a>
-                            <ul>
-                                <li><a href="#">Project 1</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#Tasks" class="has-arrow"><i class="fa fa-flag"></i><span>Progress Logs</span></a>
-                            <ul>
-                                <li><a href="#">yyyy-mm-dd</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#Tasks" class="has-arrow"><i class="fa fa-gears"></i><span>Team Resources</span></a>
-                            <ul>
-                                <li><a href="#">All</a></li>
-                            </ul>
-                        </li>
-                    </ul> --}}
                 </nav>
             </div>
         </div>          

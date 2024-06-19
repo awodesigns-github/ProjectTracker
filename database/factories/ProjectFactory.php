@@ -22,7 +22,7 @@ class ProjectFactory extends Factory
             'name' => $this->faker->company(),
             'description' => $this->faker->sentence(),
             'status' => $status,
-            'module_id' => $this->faker->numberBetween(1, 10),
+            'module_id' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

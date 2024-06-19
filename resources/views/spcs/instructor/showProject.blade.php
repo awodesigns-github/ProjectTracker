@@ -74,6 +74,10 @@
                                             <label for="Name"><b>Created On : </b></label>
                                             <p class="pl-2">{{ $projectDetails->created_at }}</p>
                                         </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Days Remaining : </b></label>
+                                            <p class="pl-2">{{ $projectDetails->days_remaining }}</p>
+                                        </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="pb-2 d-flex">
@@ -86,6 +90,10 @@
                                         </div>
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Updated On : </b></label>
+                                            <p class="pl-2">{{ $projectDetails->updated_at }}</p>
+                                        </div>
+                                        <div class="pb-2 d-flex">
+                                            <label for="Name"><b>Due Date : </b></label>
                                             <p class="pl-2">{{ $projectDetails->updated_at }}</p>
                                         </div>
                                     </div>
@@ -138,6 +146,7 @@
                                                     <tr>
                                                         <th>Tasks</th>
                                                         <th>Description</th>
+                                                        <th>Status</th>
                                                         <th>Has attachment</th>
                                                         <th>Created At</th>
                                                     </tr>
@@ -147,6 +156,7 @@
                                                     <tr>
                                                         <td class="scope"><a href="{{ route('instructor-edit-task', ['id' => $task->id, 'projectId' => $task->project_id]) }}">{{ $task->task_name }} <i class="fa fa-level-up"></i></a></td>
                                                         <td>{{ $task->task_description }}</td>
+                                                        <td>{{ $task->task_status == 'C' ? 'Closed' : ($task->task_status == 'P' ? 'Pending' : 'In progress') }}</td>
                                                         <td>{{ $task->task_url == NULL ? 'No' : 'Yes | '}}
                                                             @if ($task->task_url != NULL)
                                                             <a href="{{ $task->task_url }}" target="_blank"> <i class="fa fa-download"></i> Download</a> 

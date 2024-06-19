@@ -27,7 +27,7 @@
 
 
 {{-- Instructor View --}}
-@if ($userRole == 'instructor')
+@if ($userRole == 'student')
 
 {{-- section one cards --}}
 <div class="row clearfix row-deck">
@@ -37,7 +37,7 @@
                 <div class="icon"><i class="fa fa-cube"></i> </div>
                 <div class="content text-white">
                     <div class="text-white mb-2 text-uppercase">Projects</div>
-                    <h4 class="number mb-0">{{ $projectCount }}</h4>
+                    <h4 class="number mb-0">N/A</h4>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                 <div class="icon"><i class="fa fa-tasks"></i> </div>
                 <div class="content">
                     <div class="text mb-2 text-uppercase">Tasks</div>
-                    <h4 class="number mb-0">{{ $taskCount }}</h4>
+                    <h4 class="number mb-0">N/A</h4>
                 </div>
             </div>
         </div>
@@ -129,10 +129,10 @@
     <div class="col-lg-12">
         <div class="card" style="border: none;">
             <div class="header">
-                <h2 class="text-muted"><b>Task Progress</b><small>(for the first 5 projects)</small></h2>
+                <h2 class="text-muted"><b>Task Progress</b><small>(for the first 10 projects)</small></h2>
             </div>
             <div class="body">
-                <div id="task_progress" style="height: 16rem" class="c3"></div>
+                <div id="Google-Analytics-Dashboard" style="height: 16rem" class="c3"></div>
             </div>
         </div>
     </div>
@@ -144,26 +144,26 @@
 @section('contentScripts')
 <script>
     $(document).ready(function(){
-        var closedProjects = {!! $closedProjects !!};
-        var openProjects = {!! $openProjects !!};
-        
         var chart = c3.generate({
             bindto: '#progress-chart', // id of chart wrapper
             data: {
                 columns: [
                     // each columns data
-                    ['data1', closedProjects],
-                    ['data2', openProjects],
+                    ['data1', 55],
+                    ['data2', 30],
+                    ['data3', 20],
                 ],
                 type: 'donut', // default type of chart
                 colors: {
                     'data1': '#962FC5',
                     'data2': '#3b0273',
+                    'data3': '#3d4e5f'
                 },
                 names: {
                     // name of each series
-                    'data1': 'Closed Projects',
-                    'data2': 'Open Projects',
+                    'data1': 'In-progress',
+                    'data2': 'Completed',
+                    'data3': 'Closed'
                 }
             },
             axis: {
@@ -176,31 +176,23 @@
                 top: 0
             },
         });
+    });
 
-        var projectStatistics = {!! $projectStatistics !!};
-        console.log(projectStatistics);
-
-        var categories = [];
-        var completedTasks = ['data1'];
-        var inprogressTasks = ['data2'];
-        var pendingTasks = ['data3'];
-
-        projectStatistics.forEach(element => {
-            categories.push(element.name);
-            completedTasks.push(element.completed_tasks);
-            inprogressTasks.push(element.inprogress_tasks);
-            pendingTasks.push(element.pending_tasks);
+    document.querySelectorAll('tbody tr').forEach(row => {
+        row.addEventListener('click', function () {
+            console.log("Clicked");
         });
+    });
 
-        // Task statistics
-        var taskChart = c3.generate({
-            bindto: '#task_progress', // id of chart wrapper
+    $(document).ready(function(){
+        var chart = c3.generate({
+            bindto: '#Google-Analytics-Dashboard', // id of chart wrapper
             data: {
                 columns: [
                     // each columns data
-                    completedTasks,
-                    inprogressTasks,
-                    pendingTasks,
+                    ['data1', 11, 8, 22, 18, 19, 6, 17, 11, 17, 32, 9, 12],
+                    ['data2', 7, 7, 5, 7, 9, 12, 8, 22, 18, 19, 6, 17],
+                    ['data3', 1, 13, 15, 8, 9, 12, 8, 18, 11, 17, 6, 12],
                 ],
                 type: 'bar', // default type of chart
                 colors: {
@@ -210,7 +202,7 @@
                 },
                 names: {
                     // name of each serie
-                    'data1': 'Closed tasks',
+                    'data1': 'Completed tasks',
                     'data2': 'In progress tasks',
                     'data3': 'Pending tasks',
                 }
@@ -219,7 +211,7 @@
                 x: {
                     type: 'category',
                     // name of each category
-                    categories: categories
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
                 },
             },
             bar: {
@@ -236,6 +228,5 @@
             },
         });
     });
-
 </script>    
 @endsection
