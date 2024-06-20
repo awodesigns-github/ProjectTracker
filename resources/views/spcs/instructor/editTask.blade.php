@@ -46,6 +46,14 @@
                     <option value="P">Pending</option>
                 </select>
             </div>
+
+            {{-- <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input type="text" class="form-control datetime" placeholder="Assign due date format: 2024/06/20 23:59" data-date-format="YYYY-mm-dd H:m" name="due_date" value="{{ $task->task_due_date }}">
+            </div> --}}
+
             <div class="row-clearfix">
                 <div class="col-lg-12">
                     <div class="card">

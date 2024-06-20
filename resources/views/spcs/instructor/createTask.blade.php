@@ -61,6 +61,13 @@ Upload a task
                 </select>
             </div>
 
+            {{-- <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input type="text" class="form-control datetime" placeholder="Assign due date format: 2024/06/20 23:59" data-date-format="Y-m-d H:i:s" name="due_date">
+            </div> --}}
+
             {{-- Autofill Project --}}
             <input name="project_id" type="text" class="form-control" value="{{ $projectId }}" hidden>
 

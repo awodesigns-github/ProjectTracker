@@ -109,7 +109,7 @@
                     <h2 class="pricing-header">Credits</h2>
                     <ul class="pricing-features">
                         <li>Total Credits</li>
-                        <li><small>for all modules</small></li>
+                        <li><small>(for all modules)</small></li>
                     </ul>
                     <span class="pricing-price">N/A</span>
                     <a href="javascript:void(0);" class="btn btn-outline-primary">See Milestones</a>

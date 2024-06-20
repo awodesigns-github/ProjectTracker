@@ -40,7 +40,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-pencil-square-o"></i></span>
                 </div>
-                <textarea name="description" class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}" placeholder=" Project's description ... " style="border: 1px solid rgb(216, 213, 213);" aria-label="With textarea">{{ $projectDetails->description }}</textarea>
+                <textarea name="description" class="form-control @error('description') is-invalid @enderror" value="{{ $projectDetails->description }}" placeholder=" Project's description ... " style="border: 1px solid rgb(216, 213, 213);" aria-label="With textarea">{{ $projectDetails->description }}</textarea>
             </div>
 
             <div class="pb-3 c_multiselect">
@@ -65,6 +65,12 @@
             @error('module_id')
             <small class="text-danger">{{ $message }}</small>
             @enderror
+            {{-- <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <input type="text" class="form-control datetime" placeholder="Assign due date format: 2024/06/20 23:59" data-date-format="YYYY-mm-dd H:m" name="due_date" value="{{ $projectDetails->due_date }}">
+            </div> --}}
         </section>
     </form>
 </div>

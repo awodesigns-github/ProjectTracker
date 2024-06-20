@@ -78,70 +78,13 @@ instructor name
             @error('module_id')
             <small class="text-danger">{{ $message }}</small>
             @enderror
-        </section>
-        <h2><i class="icon-plus"></i> Add Tasks</h2>
-        <section style="min-height: 60vh; max-height: 60vh;">
-            <h6><b>File upload</b></h6>
-            <hr>
-            <div class="input-group pb-3">
+            {{-- <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-cube"></i></span>
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input name="task_name" type="text" class="form-control @error('task_name') is-invalid @enderror" placeholder="Task's full name..." value="{{ old('task_name')}}" style="border: 1px solid rgb(216, 213, 213);">
-            </div>
-            <div class="input-group pb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-pencil-square-o"></i></span>
-                </div>
-                <textarea name="task_description" class="form-control @error('task_description') is-invalid @enderror" value="{{ old('task_description') }}" placeholder=" Task's description ... " style="border: 1px solid rgb(216, 213, 213);" aria-label="With textarea"></textarea>
-            </div>
-            <div class="pb-3 c_multiselect">
-                <select name="task_status" class="form-control unique-dropdown multiselect multiselect-custom @error('task_status') is-invalid @enderror" style="border: 1px solid rgb(216, 213, 213);">
-                    <option disabled selected>Assign a status</option>
-                    <option value="C">Closed</option>
-                    <option value="I">In progress</option>
-                    <option value="P">Pending</option>
-                </select>
-            </div>
-            <div class="row-clearfix">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>Upload a task file <small>only pdf is allowed</small></h2>
-                        </div>
-                        <div class="body">
-                            <div class="dropify-wrapper">
-                                <div class="dropify-message">
-                                    <span class="file-icon"> <p>Drag and drop a file here or click</p></span>
-                                    <p class="dropify-error">Ooops, something wrong appended.</p>
-                                </div>
-                                <div class="dropify-loader"></div>
-                                <div class="dropify-errors-container">
-                                    <ul></ul>
-                                </div>
-                                <input type="file" class="dropify" name="task_file">
-                                <button type="button" class="dropify-clear">Remove</button>
-                                <div class="dropify-preview">
-                                    <span class="dropify-render"></span>
-                                    <div class="dropify-infos">
-                                        <div class="dropify-infos-inner">
-                                            <p class="dropify-filename">
-                                                <span class="file-icon"></span> 
-                                                <span class="dropify-filename-inner"></span>
-                                            </p>
-                                            <p class="dropify-infos-message">
-                                                Drag and drop or click to replace
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <input type="text" class="form-control datetime" placeholder="Assign due date format: 2024/06/20 23:59" data-date-format="YYYY-mm-dd H:m" name="due_date">
+            </div> --}}
         </section>
     </form>
-
 </div>
 @endsection

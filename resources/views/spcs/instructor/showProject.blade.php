@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="pb-2 d-flex">
                                             <label for="Name"><b>Due Date : </b></label>
-                                            <p class="pl-2">{{ $projectDetails->updated_at }}</p>
+                                            <p class="pl-2">{{ $projectDetails->due_date }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -149,6 +149,8 @@
                                                         <th>Status</th>
                                                         <th>Has attachment</th>
                                                         <th>Created At</th>
+                                                        <th>Due date</th>
+                                                        <th>Time remaining</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -163,6 +165,8 @@
                                                             @endif
                                                         </td>
                                                         <td>{{ $task->created_at }}</td>
+                                                        <td>{{ $task->task_due_date }}</td>
+                                                        <td>{{ $task->days_remaining }} days</td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>

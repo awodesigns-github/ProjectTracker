@@ -9,6 +9,9 @@ use App\Models\Project;
 use App\Models\ProjectInstructor;
 use App\Models\Student;
 use App\Models\Task;
+use App\Rules\ValidProjectDueDate;
+use App\Rules\ValidTaskDueDate;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -158,12 +161,14 @@ class InstructorController extends Controller
 
     public function storeTask(Request $request)
     {
+        
         $request->validate([
-            'task_name' =>'required',
-            'task_description' =>'required|max:255',
-            'task_status' => 'required',
-            'project_id' =>'required',
-            'task_file' =>'nullable|file|mimes:pdf,docx|max:2048'
+            'task_name' => ['required'],
+            'task_description' =>['required', 'max:255'],
+            'task_status' => ['required'],
+            // 'due_date' => ['nullable', 'date_format: Y-m-d H:i:s', new ValidTaskDueDate($request->project_id)],
+            'project_id' =>['required'],
+            'task_file' => ['nullable', 'file', 'mimes:pdf,docx', 'max:2048']
         ]);
 
         if ($request->hasFile('task_file')) {
@@ -181,6 +186,7 @@ class InstructorController extends Controller
                 'task_description' => $request->task_description,
                 'task_status' => $request->task_status,
                 'project_id' => $request->project_id,
+                // 'task_due_date' => $request->due_date,
                 'task_url' => $taskUrl,
             ]);
 
@@ -203,19 +209,12 @@ class InstructorController extends Controller
         $instructorId = Instructor::query()->where('user_id', Auth::user()->id)->first();
 
         $request->validate([
-            'name' => 'required',
-            'description' => 'required|max:255',
-            'status' => 'required',
-            'module_id' => 'required',
-            'task_file' => 'nullable|file|mimes:pdf,docx|max:2048'
+            'name' => ['required'],
+            'description' => ['required', 'max:255'],
+            'status' => ['required'],
+            'module_id' => ['required'],
+            // 'due_date' => ['nullable', 'date_format: Y-m-d H:i:s'],
         ]);
-
-        if ($request->hasFile('task_file')) {
-            $taskFile = $request->file('task_file')->store('public');
-            $taskUrl = asset('storage/'.basename($taskFile));
-        } else {
-            $taskUrl = null;
-        }
 
         try {
             DB::beginTransaction();
@@ -225,14 +224,6 @@ class InstructorController extends Controller
                 'description' => $request->description,
                 'status' => $request->status,
                 'module_id' => $request->module_id,
-            ]);
-    
-            $task = Task::create([
-                'task_name' => $request->task_name,
-                'task_description' => $request->task_description,
-                'task_status' => $request->task_status,
-                'project_id' => $project->id,
-                'task_url' => $taskUrl,
             ]);
 
             $projectInstructor = ProjectInstructor::create([
@@ -322,10 +313,12 @@ class InstructorController extends Controller
     public function updateTask(Request $request, Task $id)
     {
         $request->validate([
-            'task_name' => 'required|max:255',
-            'task_description' => 'required|max:255',
-            'task_status' => 'required',
-            'task_file' => 'nullable|file|mimes:pdf,docx|max:2048',
+            'task_name' => ['required'],
+            'task_description' =>['required', 'max:255'],
+            'task_status' => ['required'],
+            // 'due_date' => ['nullable', 'date_format: Y-m-d H:i:s', new ValidTaskDueDate($request->project_id)],
+            'project_id' =>['required'],
+            'task_file' => ['nullable', 'file', 'mimes:pdf,docx', 'max:2048']
         ]);
 
         // dd($request);
@@ -344,6 +337,7 @@ class InstructorController extends Controller
                 'task_name' => $request->task_name,
                 'task_description' => $request->task_description,
                 'task_status' => $request->task_status,
+                // 'task_due_date' => $request->due_date,
                 'project_id' => $id->project_id,
                 'task_url' => $taskUrl
             ]);
