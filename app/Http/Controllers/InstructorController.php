@@ -57,8 +57,6 @@ class InstructorController extends Controller
                         ->take(5)
                         ->get();
 
-        // dd($projectStatistics);
-
 
         $openProjectsCount = Instructor::instructorProjectObject()->first()->project()->where('status', 'O')->count();
         $closedProjectsCount = Instructor::instructorProjectObject()->first()->project()->where('status', 'C')->count();
@@ -160,16 +158,17 @@ class InstructorController extends Controller
     }
 
     public function storeTask(Request $request)
-    {
-        
+    {    
         $request->validate([
             'task_name' => ['required'],
             'task_description' =>['required', 'max:255'],
             'task_status' => ['required'],
-            // 'due_date' => ['nullable', 'date_format: Y-m-d H:i:s', new ValidTaskDueDate($request->project_id)],
             'project_id' =>['required'],
-            'task_file' => ['nullable', 'file', 'mimes:pdf,docx', 'max:2048']
+            'task_file' => ['nullable', 'file', 'mimes:pdf,docx,png', 'max:2048']
         ]);
+
+        $students = Project::query()->where('id', $request->project_id)->first()->module->student;
+        // dd($students);
 
         if ($request->hasFile('task_file')) {
             $taskFile = $request->file('task_file')->store('public');
@@ -186,9 +185,12 @@ class InstructorController extends Controller
                 'task_description' => $request->task_description,
                 'task_status' => $request->task_status,
                 'project_id' => $request->project_id,
-                // 'task_due_date' => $request->due_date,
                 'task_url' => $taskUrl,
             ]);
+
+            foreach ($students as $student) {
+                $task->student()->attach($student->id);
+            }
 
             DB::commit();
 
@@ -213,7 +215,6 @@ class InstructorController extends Controller
             'description' => ['required', 'max:255'],
             'status' => ['required'],
             'module_id' => ['required'],
-            // 'due_date' => ['nullable', 'date_format: Y-m-d H:i:s'],
         ]);
 
         try {
@@ -226,7 +227,7 @@ class InstructorController extends Controller
                 'module_id' => $request->module_id,
             ]);
 
-            $projectInstructor = ProjectInstructor::create([
+            ProjectInstructor::create([
                 'project_id' => $project->id,
                 'instructor_id' => $instructorId->id,
             ]);
@@ -281,7 +282,6 @@ class InstructorController extends Controller
      */
     public function edit(Project $id)
     {
-        // dd($id->task);
         $modules = Module::query()->get();
 
         return view('spcs.instructor.editProject', [
@@ -297,7 +297,6 @@ class InstructorController extends Controller
      */
     public function editTask(Task $id)
     {
-        // dd($id);
         $projectDetails = Project::query()->where('id', $id->project_id)->first();
         return view('spcs.instructor.editTask', [
             'userRole' => $this->userRole,
@@ -316,12 +315,10 @@ class InstructorController extends Controller
             'task_name' => ['required'],
             'task_description' =>['required', 'max:255'],
             'task_status' => ['required'],
-            // 'due_date' => ['nullable', 'date_format: Y-m-d H:i:s', new ValidTaskDueDate($request->project_id)],
             'project_id' =>['required'],
             'task_file' => ['nullable', 'file', 'mimes:pdf,docx', 'max:2048']
         ]);
 
-        // dd($request);
 
         if ($request->hasFile('task_file')) {
             $taskFile = $request->file('task_file')->store('public');
@@ -337,7 +334,6 @@ class InstructorController extends Controller
                 'task_name' => $request->task_name,
                 'task_description' => $request->task_description,
                 'task_status' => $request->task_status,
-                // 'task_due_date' => $request->due_date,
                 'project_id' => $id->project_id,
                 'task_url' => $taskUrl
             ]);

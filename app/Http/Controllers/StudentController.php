@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Module;
+use App\Models\Project;
 use App\Models\Student;
 use App\Models\Team;
 use App\Models\User;
@@ -16,8 +18,31 @@ class StudentController extends Controller
      */
     public function index()
     {
+        $student = Student::query()->where('user_id', Auth::user()->id)->first();
+
+        $studentProjectsCount = Student::studentProjectCount();
+        $completedTasks = Student::completedTasks($student->id);
+        $pendingTasks = Student::pendingTasks($student->id);
+
+        $studentProjects = Student::studentProjects();
+        
+        $projects = collect();
+
+        foreach ($studentProjects as $modules) {
+            foreach ($modules->project as $project) {
+                if (is_null($project->deleted_at) && $project->status != 'C') {
+                    $projects->push($project);
+                }
+            }
+        }
+
         return view('spcs.student.index', [
-            'userRole' => $this->userRole
+            'userRole' => $this->userRole,
+            'studentProjectCount' => $studentProjectsCount,
+            'completedTasksCount' => $completedTasks->task->count(),
+            'pendingTasksCount' => $pendingTasks->task->count(),
+            'studentProjects' => $projects,
+            'modules' => $studentProjects
         ]);
     }
 
@@ -40,9 +65,37 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Student $student)
+    public function showProject(Project $id)
     {
-        //
+        $modules = Student::studentProjects(); // for the side bar
+        $student = Student::query()->where('user_id', Auth::user()->id)->first();
+
+        $studentWithTasks = Student::with(['task' => function($query) use ($id) {
+            $query->where('project_id', $id->id)
+                    ->select('tasks.id', 'tasks.task_name', 'tasks.task_description', 'tasks.project_id');
+        }])->findOrFail($student->id);
+
+        return view('spcs.student.showProjectDetails', [
+            'userRole' => $this->userRole,
+            'project' => $id,
+            'studentInformation' => $student,
+            'tasks' => $studentWithTasks->task,
+            'modules' => $modules
+        ]);
+    }
+
+    public function sortProjects(Module $id)
+    {
+        $modules = Student::studentProjects();
+
+        $projects = Project::query()->where('module_id', $id->id)->where('status', 'O')->get();
+
+        return view('spcs.student.sortProjects', [
+            'userRole' => $this->userRole,
+            'modules' => $modules,
+            'module' => $id,
+            'projects' => $projects
+        ]);
     }
 
     /**

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Facades\Auth;
 
 class Student extends Model implements Authenticatable
 {
@@ -79,5 +80,40 @@ class Student extends Model implements Authenticatable
     public function task(): BelongsToMany
     {
         return $this->belongsToMany(Task::class, 'task_student')->withPivot('status')->withTimestamps();
+    }
+
+    public static function studentProjects()
+    {
+        return self::query()->where('user_id', Auth::user()->id)->first()->module;
+    }
+
+    public static function studentProjectCount()
+    {
+        $modules = self::query()->where('user_id', Auth::user()->id)->first()->module;
+
+        $projectCount = 0;
+        foreach ($modules as $module) {
+            $projectCount += $module->project->where('status', 'O')->count();
+        }
+
+        return $projectCount;
+    }
+
+    public static function completedTasks($studentId)
+    {
+        $completeTasks = Student::with(['task' => function ($query) {
+            $query->select('tasks.id', 'task_name', 'task_description', 'task_student.status')->where('task_student.status', 'C');
+        }])->findOrFail($studentId);
+
+        return $completeTasks;
+    }
+
+    public static function pendingTasks($studentId)
+    {
+        $incompleteTasks = Student::with(['task' => function ($query) {
+            $query->select('tasks.id', 'task_name', 'task_description', 'task_student.status')->where('task_student.status', 'I');
+        }])->findOrFail($studentId);
+
+        return $incompleteTasks;
     }
 }

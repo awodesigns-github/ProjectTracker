@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
 
     // Students
     Route::get('/', [StudentController::class, 'index'])->name('student-dashboard');
+    Route::get('/student/student/project/{id?}', [StudentController::class, 'showProject'])->name('student-projects');
+    Route::get('/student/sort/projects/{id?}', [StudentController::class, 'sortProjects'])->name('student-sort-projects');
 });
 
 Route::get('/github/users/{username}', [GithubController::class, 'getAuthenticatedUserInfo'])->name('github-user-info');

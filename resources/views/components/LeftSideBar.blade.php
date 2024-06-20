@@ -108,11 +108,11 @@
                         <li>
                             <a href="#Projects" class="has-arrow"><i class="fa fa-cube"></i><span>Projects & Tasks</span></a>
                             <ul>
-                                <li class="active"><a href="#" class="has-arrow">Entry List</a>
+                                <li class="active"><a href="#" class="has-arrow">Modules</a>
                                     <ul>
-                                        <li><a href="#">All</a></li>
-                                        <li><a href="#">Ongoing</a></li>
-                                        <li><a href="#">Closed</a></li>                                    
+                                        @foreach ($modules as $module)
+                                        <li><a href="{{ route('student-sort-projects', ['id' => $module->id]) }}">{{ $module->name }}</a></li>  
+                                        @endforeach                                 
                                     </ul>
                                 </li>
                             </ul>

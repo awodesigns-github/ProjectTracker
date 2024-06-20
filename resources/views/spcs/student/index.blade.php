@@ -37,7 +37,7 @@
                 <div class="icon"><i class="fa fa-cube"></i> </div>
                 <div class="content text-white">
                     <div class="text-white mb-2 text-uppercase">Projects</div>
-                    <h4 class="number mb-0">N/A</h4>
+                    <h4 class="number mb-0">{{ $studentProjectCount }}</h4>
                 </div>
             </div>
         </div>
@@ -45,10 +45,10 @@
     <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="card top_widget" style="border: none; cursor:pointer;" id="card_tasks">
             <div class="body text-white" style="background: #962FC5;">
-                <div class="icon"><i class="fa fa-tasks"></i> </div>
+                <div class="icon"><i class="fa fa-check"></i> </div>
                 <div class="content">
                     <div class="text mb-2 text-uppercase">Completed tasks</div>
-                    <h4 class="number mb-0">N/A</h4>
+                    <h4 class="number mb-0">{{ $completedTasksCount }}</h4>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <div class="icon"><i class="fa fa-tasks"></i> </div>
                 <div class="content">
                     <div class="text mb-2 text-uppercase">Pending tasks</div>
-                    <h4 class="number mb-0">N/A</h4>
+                    <h4 class="number mb-0">{{ $pendingTasksCount }}</h4>
                 </div>
             </div>
         </div>
@@ -77,11 +77,16 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Progress</th>
+                    <th>Module</th>
                 </tr>
             </thead>
             <tbody>
-            
+                @foreach ($studentProjects as $project)
+                <tr>
+                    <td><a href="{{ route('student-projects', ['id' => $project->id]) }}">{{ $project->name }} <i class="fa fa-level-up"></i></a></td>
+                    <td>{{ $project->module->name }}</td>
+                </tr>
+                @endforeach
             </tbody>
 
         </table>
@@ -97,7 +102,7 @@
                 <h2 class="text-muted"><b>Overall Project Statistics</b></h2>
             </div>
             <div class="body">
-                <div id="progress-chart" style="height: 16rem"></div>
+                <div id="completion_chart" style="height: 16rem"></div>
             </div>
         </div> 
     </div>
@@ -142,26 +147,25 @@
 @section('contentScripts')
 <script>
     $(document).ready(function(){
+        var completedTasksCount = {!! $completedTasksCount !!};
+        var pendingTasksCount = {!! $pendingTasksCount!!};
         var chart = c3.generate({
-            bindto: '#progress-chart', // id of chart wrapper
+            bindto: '#completion_chart', // id of chart wrapper
             data: {
                 columns: [
                     // each columns data
-                    ['data1', 55],
-                    ['data2', 30],
-                    ['data3', 20],
+                    ['data1', completedTasksCount],
+                    ['data2', pendingTasksCount],
                 ],
                 type: 'donut', // default type of chart
                 colors: {
                     'data1': '#962FC5',
                     'data2': '#3b0273',
-                    'data3': '#3d4e5f'
                 },
                 names: {
                     // name of each series
-                    'data1': 'In-progress',
-                    'data2': 'Completed',
-                    'data3': 'Closed'
+                    'data1': 'Completed',
+                    'data2': 'Pending',
                 }
             },
             axis: {
