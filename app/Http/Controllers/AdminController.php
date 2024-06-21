@@ -49,6 +49,8 @@ class AdminController extends Controller
             'deletedProjectsCount' => $deletedProjects->count(),
             'usersCount' => $usersCount,
             'courseCount' => $courseCount,
+            'closedProjectsCount' => $projects->where('status', 'C')->count(),
+            'openProjectsCount' => $projects->where('status', 'O')->count(),
         ]);
     }
 
@@ -81,12 +83,76 @@ class AdminController extends Controller
         //
     }
 
+    public function showStudents(Cohort $id)
+    {
+        $cohortList = Cohort::query()->get();
+        $studentDetails = Student::query()->where('cohort_id', $id->id)->get();
+
+        return view('spcs.admin.showStudents', [
+            'userRole' => $this->userRole,
+            'cohortList' => $cohortList,
+            'studentDetails' => $studentDetails,
+        ]);
+    }
+
+    public function showStudentDetails(Student $id)
+    {
+        $cohortList = Cohort::query()->get();
+        $studentDetails = Student::query()->where('id', $id->id)->first();
+
+        return view('spcs.admin.studentDetails', [
+            'userRole' => $this->userRole,
+            'cohortList' => $cohortList,
+            'student' => $studentDetails
+        ]);
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function showDeletedProjects()
     {
-        //
+        $cohortList = Cohort::query()->get();
+
+        $deletedProjects = Project::onlyTrashed()->get();
+
+        return view('spcs.admin.showDeletedProjects', [
+            'userRole' => $this->userRole,
+            'cohortList' => $cohortList,
+            'projectDetails' => $deletedProjects
+        ]);
+    }
+
+    public function showDeletedProject($id)
+    {
+        $cohortList = Cohort::query()->get();
+        $projectDetails = Project::withTrashed()->where('id', $id)->with(['task', 'module'])->first();
+        $projectTask = $projectDetails->task;
+        $projectStudents = $projectDetails->module->student;
+
+        return view('spcs.admin.showProjectDetails', [
+            'userRole' => $this->userRole,
+            'cohortList' => $cohortList,
+            'projectDetails' => $projectDetails,
+            'projectStudents' => $projectStudents,
+            'projectTasks' => $projectTask
+        ]);
+    }
+
+    public function showProjectDetails(Project $id)
+    {
+        $cohortList = Cohort::query()->get();
+        $projectDetails = Project::query()->where('id', $id->id)->with(['task', 'module'])->first();
+        $projectTask = $projectDetails->task;
+        $projectStudents = $projectDetails->module->student;
+
+        return view('spcs.admin.showProjectDetails', [
+            'userRole' => $this->userRole,
+            'cohortList' => $cohortList,
+            'projectDetails' => $projectDetails,
+            'projectStudents' => $projectStudents,
+            'projectTasks' => $projectTask
+        ]);
     }
 
     /**

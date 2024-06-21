@@ -25,6 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/show/instructors/cohort/{id?}', [AdminController::class, 'showInstructors'])->name('admin-show-instructors');
     Route::get('/admin/show/instructors/instructor/{id?}', [AdminController::class, 'showInstructorDetails'])->name('admin-show-instructor-details');
     Route::get('/admin/instructor/create', [AdminController::class, 'createInstructor'])->name('admin-create-instructor');
+    Route::get('/admin/deletedProjects', [AdminController::class, 'showDeletedProjects'])->name('admin-deleted-projects');
+    Route::get('/admin/project/{id?}', [AdminController::class, 'showProjectDetails'])->name('admin-show-project');
+    Route::get('/admin/deletedProject/{id?}', [AdminController::class, 'showDeletedProject'])->name('admin-show-deleted-project');
+    Route::get('/admin/showStudents/{id?}', [AdminController::class, 'showStudents'])->name('admin-show-students');
+    Route::get('/admin/student/{id?}', [AdminController::class, 'showStudentDetails'])->name('admin-show-student-details');
 
     // Instructors
     Route::get('/instructors', [InstructorController::class, 'index'])->name('instructor-dashboard');
@@ -46,6 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [StudentController::class, 'index'])->name('student-dashboard');
     Route::get('/student/student/project/{id?}', [StudentController::class, 'showProject'])->name('student-projects');
     Route::get('/student/sort/projects/{id?}', [StudentController::class, 'sortProjects'])->name('student-sort-projects');
+
+    // Github
+    Route::post('/github-webhook', [GithubController::class, 'handle'])->name('github-webhook');
 });
 
 Route::get('/github/users/{username}', [GithubController::class, 'getAuthenticatedUserInfo'])->name('github-user-info');

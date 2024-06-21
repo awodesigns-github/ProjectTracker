@@ -20,7 +20,6 @@
                             @csrf 
                         </form>
                     </li>
-                    {{-- <li><a href="{{ route('logout') }}"><i class="icon-power"></i>Logout</a></li> --}}
                 </ul>
             </div>
             <hr>
@@ -43,7 +42,7 @@
                         <li>
                             <a href="#Projects" class="has-arrow"><i class="fa fa-user"></i><span>Instructors</span></a>
                             <ul>
-                                <li class="active"><a href="#" class="has-arrow">Entry List</a>
+                                <li class="active"><a href="#" class="has-arrow">Cohorts</a>
                                     <ul>
                                         @foreach ($cohortList as $cohorts)
                                             <li><a href="{{ route('admin-show-instructors', ['id' => $cohorts->id]) }}">{{ $cohorts->name }}</a></li>
@@ -54,23 +53,16 @@
                         </li>
                         <li><a href="#Tasks" class="has-arrow"><i class="fa fa-users"></i><span>Students</span></a>
                             <ul>
-                                <li class="active"><a href="#" class="has-arrow">Entry List</a>
+                                <li class="active"><a href="#" class="has-arrow">Cohorts</a>
                                     <ul>
                                         @foreach ($cohortList as $cohorts)
-                                            <li><a href="#">{{ $cohorts->name }}</a></li>
+                                            <li><a href="{{ route('admin-show-students', ['id' => $cohorts->id]) }}">{{ $cohorts->name }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-                        </li>
-                        <li><a href="#Tasks" class="has-arrow"><i class="fa fa-gears"></i><span>Roles & Permissions</span></a>
-                            <ul>
-                                <li><a href="#">All</a></li>
-                                <li><a href="#">Instructors</a></li>
-                                <li><a href="#">Students</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="{{ route('admin-deleted-projects') }}"><i class="fa fa-trash"></i> Deleted Projects</a></li>
                     </ul>
                         
                     @elseif($userRole == 'instructor')

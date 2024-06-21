@@ -21,7 +21,7 @@ class InstructorFactory extends Factory
             'employee_id' => "EMP-".$this->faker->swiftBicNumber(),
             'github_username' => $this->faker->userName(),
             'user_id' => $this->faker->numberBetween(3, 4),
-            'campus_id' => $this->faker->numberBetween(1, 10)
+            'campus_id' => Campus::factory()
         ];
     }
 }

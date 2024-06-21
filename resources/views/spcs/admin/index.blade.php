@@ -106,7 +106,7 @@
             <tbody>
                 @foreach ($projects as $project)
                 <tr>
-                    <td class="scope">{{ $project->name }}</td>
+                    <td class="scope"><a href="{{ route('admin-show-project', ['id' => $project->id]) }}">{{ $project->name }} <i class="fa fa-level-up"></i></a></td>
                     <td>{{ $project->task_count }}</td>
                     <td>{{ $project->instructors->first()->user->name }}</td>
                 </tr>
@@ -121,7 +121,7 @@
     <div class="col-lg-6">
         <div class="card" style="border: none;">
             <div class="header">    
-                <h2 class="text-muted"><b>Progress</b></h2>
+                <h2 class="text-muted"><b>Overall Project Statistics</b></h2>
             </div>
             <div class="body">
                 <div id="progress-chart" style="height: 16rem"></div>
@@ -157,7 +157,7 @@
             <tbody>
                 @foreach ($deletedProjects as $item)
                 <tr>
-                    <td class="scope">{{ $item->name }}</td>
+                    <td class="scope"><a href="{{ route('admin-show-deleted-project', ['id' => $item->id]) }}">{{ $item->name }} <i class="fa fa-level-up"></i></a></td>
                     <td>{{ $item->deleted_at }}</td>
                     <td>N/A</td>
                 </tr>
@@ -173,27 +173,26 @@
 @endsection
 @section('contentScripts')
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
+        var openProjects = {!! $openProjectsCount !!};
+        var closedProjects = {!! $closedProjectsCount !!};
         var chart = c3.generate({
             bindto: '#progress-chart', // id of chart wrapper
             data: {
                 columns: [
                     // each columns data
-                    ['data1', 10],
-                    ['data2', 20],
-                    ['data3', 70]
+                    ['data1', openProjects],
+                    ['data2', closedProjects],
                 ],
                 type: 'donut', // default type of chart
                 colors: {
                     'data1': '#962FC5',
-                    'data2': '#E11E1E',
-                    'data3': '#1d2124'
+                    'data2': '#3b0273',
                 },
                 names: {
                     // name of each series
-                    'data1': 'In-progress',
-                    'data2': 'Completed',
-                    'data3': 'Closed'
+                    'data1': 'Open projects',
+                    'data2': 'Closed projects',
                 }
             },
             axis: {

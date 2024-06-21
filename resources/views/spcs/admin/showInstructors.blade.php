@@ -42,40 +42,23 @@
                     <table class="table table-bordered table-striped table-hover dataTable js-exportable table table-hover mb-0 c_list">
                         <thead>
                             <tr>
-                                <th>
-                                    <label class="fancy-checkbox">
-                                        <input class="select-all" type="checkbox" name="checkbox">
-                                        <span></span>
-                                    </label>
-                                </th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Employee ID</th>
                                 <th>Github</th>
                                 <th>Phone Number</th>
                                 <th>Campus</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
                             @foreach ($instructors as $instructor)
                                 <tr>
-                                    <td style="width: 50px;">
-                                        <label class="fancy-checkbox">
-                                            <input class="checkbox-tick" type="checkbox" name="checkbox">
-                                            <span></span>
-                                        </label>
-                                    </td>
-                                    <td>{{ $instructor->user->name }}</td>
+                                    <td> <a href="{{ route('admin-show-instructor-details', ['id' => $instructor->id]) }}">{{ $instructor->user->name }} <i class="fa fa-level-up"></i></a></td>
                                     <td>{{ $instructor->user->email }}</td>
                                     <td>{{ $instructor->employee_Id }}</td>
                                     <td>{{ $instructor->github_username }}</td>
                                     <td>{{ $instructor->user->primary_phone_number }}</td>
                                     <td>{{ $instructor->campus->name }}</td>
-                                    <td>    
-                                        <a href="{{ route('admin-show-instructor-details', ['id' => $instructor->id]) }}" style="color: white;"><button type="button" class="btn btn-primary" data-toggle="tooltip" title="View Details"><span class="sr-only">View</span><i class="icon-eye"></i></button></a>
-                                        <a href="#" style="color: white;"><button type="button" class="btn btn-danger" data-toggle="tooltip" title="Delete details"><span class="sr-only">Delete</span><i class="icon-trash"></i></button></a>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

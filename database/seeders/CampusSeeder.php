@@ -14,8 +14,6 @@ class CampusSeeder extends Seeder
      */
     public function run(): void
     {
-        Campus::factory()->create([
-            'name' => 'Tanzania'
-        ]);
+        Campus::factory(10)->create();
     }
 }
