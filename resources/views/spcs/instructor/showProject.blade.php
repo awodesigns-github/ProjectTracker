@@ -151,6 +151,7 @@
                                                         <th>Created At</th>
                                                         <th>Due date</th>
                                                         <th>Time remaining</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -167,6 +168,7 @@
                                                         <td>{{ $task->created_at }}</td>
                                                         <td>{{ $task->task_due_date }}</td>
                                                         <td>{{ $task->days_remaining }} days</td>
+                                                        <td><a href="#"><i class="btn btn-block btn-primary fa fa-trash"></i></a></td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>

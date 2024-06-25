@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/deletedProject/{id?}', [AdminController::class, 'showDeletedProject'])->name('admin-show-deleted-project');
     Route::get('/admin/showStudents/{id?}', [AdminController::class, 'showStudents'])->name('admin-show-students');
     Route::get('/admin/student/{id?}', [AdminController::class, 'showStudentDetails'])->name('admin-show-student-details');
+    Route::post('/admin/deletedProjects/restore/{id?}', [AdminController::class, 'restoreProject'])->name('admin-restore-project');
+    Route::post('/admin/deletedProjects/delete/{id?}', [AdminController::class, 'deleteProject'])->name('admin-delete-project');
 
     // Instructors
     Route::get('/instructors', [InstructorController::class, 'index'])->name('instructor-dashboard');
@@ -46,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/instructors/project/edit/store/{id?}', [InstructorController::class, 'update'])->name('instructor-store-edit-project');
     Route::get('/instructors/project/task/edit/{id?}', [InstructorController::class, 'editTask'])->name('instructor-edit-task');
     Route::patch('/instructors/project/task/edit/store/{id?}', [InstructorController::class, 'updateTask'])->name('instructor-store-edit-task');
+    Route::post('/instructors/project/task/delete/{id?}', [InstructorController::class, 'deleteTask'])->name('instructor-delete-task');
 
     // Students
     Route::get('/', [StudentController::class, 'index'])->name('student-dashboard');

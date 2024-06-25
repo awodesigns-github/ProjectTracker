@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProjectCreationEmail;
 use App\Models\Cohort;
 use App\Models\Instructor;
 use App\Models\Module;
@@ -157,6 +158,49 @@ class InstructorController extends Controller
         ]);
     }
 
+    /**
+     * Store a newly created project and task in storage.
+     */
+    public function store(Request $request)
+    {
+        $instructorId = Instructor::query()->where('user_id', Auth::user()->id)->first();
+
+        $request->validate([
+            'name' => ['required'],
+            'description' => ['required', 'max:255'],
+            'status' => ['required'],
+            'module_id' => ['required'],
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $project = Project::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'status' => $request->status,
+                'module_id' => $request->module_id,
+            ]);
+
+            ProjectInstructor::create([
+                'project_id' => $project->id,
+                'instructor_id' => $instructorId->id,
+            ]);
+
+            Log::info("Project: . $request->name . created successfully by " . Auth::user()->name);
+
+            // ProjectCreationEmail::dispatch($project);
+
+            DB::commit();
+
+            return redirect()->route('instructor-dashboard')->with('creationSuccess', 'Project created successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            return redirect()->back();
+        }
+    }
+
     public function storeTask(Request $request)
     {    
         $request->validate([
@@ -203,47 +247,6 @@ class InstructorController extends Controller
 
     }
 
-    /**
-     * Store a newly created project and task in storage.
-     */
-    public function store(Request $request)
-    {
-        $instructorId = Instructor::query()->where('user_id', Auth::user()->id)->first();
-
-        $request->validate([
-            'name' => ['required'],
-            'description' => ['required', 'max:255'],
-            'status' => ['required'],
-            'module_id' => ['required'],
-        ]);
-
-        try {
-            DB::beginTransaction();
-
-            $project = Project::create([
-                'name' => $request->name,
-                'description' => $request->description,
-                'status' => $request->status,
-                'module_id' => $request->module_id,
-            ]);
-
-            ProjectInstructor::create([
-                'project_id' => $project->id,
-                'instructor_id' => $instructorId->id,
-            ]);
-
-            Log::info("Project: . $request->name . created successfully by " . Auth::user()->name);
-
-            DB::commit();
-
-            return redirect()->route('instructor-dashboard')->with('creationSuccess', 'Project created successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::info($e);
-            return redirect()->back();
-        }
-    }
-
 
     /**
      * Display the specified project information
@@ -267,14 +270,6 @@ class InstructorController extends Controller
             'userRole' => $this->userRole,
             'studentDetails' => $id
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Instructor $instructor)
-    {
-        //
     }
 
     /**
@@ -408,7 +403,6 @@ class InstructorController extends Controller
      */
     public function destroyProject(Project $id)
     {
-        // dd($id);
         $project = Project::findOrFail($id->id);
         $tempName = $id->name;
 
@@ -425,5 +419,25 @@ class InstructorController extends Controller
         }
 
         return redirect()->route('instructor-dashboard')->with('projectDeletion', 'Project deleted successfully!');
+    }
+
+    public function deleteTask(Task $id)
+    {
+        $task = Task::findOrFail($id->id);
+        $tempName = $id->task_name;
+
+        DB::beginTransaction();
+
+        try {
+            $task->delete();
+            Log::info('Instructor with id ' . Auth::user()->id . ' and name ' . Auth::user()->name .'deleted task '. $tempName);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e);
+            return redirect()->back()->with('deletionError', 'Deletion Error... Please check logs');
+        }
+
+        return redirect()->back()->with('taskDeletion', 'Task deleted successfully!');
     }
 }

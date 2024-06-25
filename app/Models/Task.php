@@ -39,6 +39,10 @@ class Task extends Model
                 $task->task_due_date = Carbon::parse($task->created_at)->addDays(2)->format('Y-m-d H:i:s');
             }
         });
+
+        static::deleting(function ($task) {
+            $task->student()->detach();
+        });
     }
 
     public function getDaysRemainingAttribute()

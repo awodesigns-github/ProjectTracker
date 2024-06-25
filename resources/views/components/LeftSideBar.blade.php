@@ -5,7 +5,7 @@
             @if (Auth::user()->sex == 'M')
             <img src="{{ asset('assets/logo/avt.jpeg') }}" class="rounded-circle user-photo" alt="User">
             @else      
-            <img src="{{ asset('assets/logo/avt_female.jpg') }}" class="rounded-circle user-photo" alt="User">
+            <img src="{{ asset('assets/logo/avt2.jpg') }}" class="rounded-circle user-photo" alt="User">
             @endif
             <div class="dropdown">
                 <span>Welcome {{ $userRole }}</span>

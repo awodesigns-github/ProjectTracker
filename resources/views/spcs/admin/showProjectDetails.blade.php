@@ -24,6 +24,7 @@
                     </form> --}}
 
                     <btn class="btn btn-danger btn-block" id="project_delete" data-type="cancel" data-id="{{ $projectDetails->id }}"><i class="fa fa-warning"></i> Delete Project</btn>
+                    <btn class="btn btn-primary btn-block" id="project_restore" data-type="cancel" data-id="{{ $projectDetails->id }}"><i class="fa fa-recycle"></i> Restore Project</btn>
                 </div>
                 <hr>
                 <div class="mail-side" id="preCheck">
@@ -199,14 +200,49 @@
                     console.log(id);
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('instructor-delete-project', ['id' => ""]) }}" + '/' + id,
+                        url: "{{ route('admin-delete-project', ['id' => ""]) }}" + '/' + id,
                         data: {
                             _token: "{{ csrf_token() }}",
                         },
                         success: function (response) {
                             swal("Deleted!", "The project was deleted", "success");
                             setTimeout(() => {
-                                window.location.href = "{{ route('instructor-dashboard') }}";   
+                                window.location.href = "{{ route('admin-dashboard') }}";   
+                            }, 2000);
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Deletion failed", "error");
+                }
+            });
+        });
+
+        $("#project_restore").on('click', function () {
+            var id = $(this).data("id");
+            console.log(id);
+            swal({
+                title: "Are you sure?",
+                text: "You are about to delete this project",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#dc3545",
+                confirmButtonText: "Yes, Continue with deletion!",
+                cancelButtonText: "No, Cancel!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    console.log(id);
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('admin-restore-project', ['id' => ""]) }}" + '/' + id,
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                        },
+                        success: function (response) {
+                            swal("Deleted!", "The project was deleted", "success");
+                            setTimeout(() => {
+                                window.location.href = "{{ route('admin-dashboard') }}";   
                             }, 2000);
                         }
                     });

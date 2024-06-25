@@ -53,12 +53,6 @@ class Project extends Model
     {
         parent::boot();
 
-        static::deleting(function ($project) {
-            $project->instructors()->detach();
-            $project->team()->detach();
-            $project->task()->delete();
-        });
-
         static::creating(function ($project) {
             if (is_null($project->created_at)) {
                 $project->created_at = Carbon::now();
@@ -68,6 +62,15 @@ class Project extends Model
                 $project->due_date = Carbon::parse($project->created_at)->addDays(10)->format('Y-m-d H:i:s');
             }
         });
+        
+        static::deleting(function ($project) {
+            $project->instructors()->detach();
+            $project->team()->detach();
+            $project->task()->each(function ($task) {
+                $task->delete();
+            });
+        });
+        
     }
 
     public function getDaysRemainingAttribute()
